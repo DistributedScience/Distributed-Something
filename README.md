@@ -59,9 +59,10 @@ When the cluster is up and running, you can monitor progress using the following
  $ python run.py monitor files/APP_NAMESpotFleetRequestId.json
 
 The file APP_NAMESpotFleetRequestId.json is created after the cluster is setup in step 3. It is 
+
 important to keep this monitor running if you want to automatically shutdown computing resources
 when there are no more tasks in the queue (recommended).
 
 See the wiki for more information about each step of the process.
-![DistributedCellProfiler](https://user-images.githubusercontent.com/6721515/112663404-2a58c580-8e2f-11eb-8ff9-68ab2b1a1b70.png)
 
+![DistributedSomething](https://user-images.githubusercontent.com/6721515/148241641-7e447d94-dc25-4214-afb1-132e3dc06987.png)
