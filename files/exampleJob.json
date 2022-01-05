@@ -1,0 +1,15 @@
+{
+  "_comment0": "All keys that contain '_comment' will be omitted from the job specification dictionary sent to SQS",
+  "_comment1": "The top part should be variables common to all jobs",
+  "_comment2": "These could be things like a master input location, run parameters, etc",
+  "input_location": "Somewhere/on/your/bucket",
+  "job_flag_1": "True",
+  "_comment3": "The following groups are individual tasks, and each will be run in parallel",
+  "groups": [
+    {"job_flag_2": "A", "job_flag_3": "foo"},
+    {"job_flag_2": "A", "job_flag_3": "bar"},
+    {"job_flag_2": "B", "job_flag_3": "foo"},
+    {"job_flag_2": "B", "job_flag_3": "bar"}
+  ]
+}
+
