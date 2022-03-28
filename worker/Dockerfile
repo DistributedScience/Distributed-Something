@@ -2,13 +2,13 @@
 #                                 - [ BROAD'16 ] -
 #
 # A docker instance for accessing AWS resources
-# This wraps the cellprofiler docker registry
+# This wraps your docker registry
 #
 
 
 FROM someuser/somedocker:sometag
 
-# Install S3FS 
+# Install S3FS
 
 RUN apt-get -y update           && \
     apt-get -y upgrade          && \
@@ -36,11 +36,11 @@ RUN make install
 # Install Python - not needed if you've already got it in your container
 # If you have a non-3.8 version, you will need to change python3.8 calls where specified
 
-RUN apt install -y python3.8-dev python3.8-distutils
+RUN apt install -y python3.8-dev python3.8-distutils python3-pip
 
 # Install AWS CLI
 
-RUN python3.8 -m pip install awscli 
+RUN python3.8 -m pip install awscli
 
 # Install boto3
 
@@ -62,4 +62,3 @@ RUN chmod 755 run-worker.sh
 WORKDIR /home/ubuntu
 ENTRYPOINT ["./run-worker.sh"]
 CMD [""]
-
