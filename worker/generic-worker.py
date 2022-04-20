@@ -22,8 +22,12 @@ AWS_BUCKET = os.environ['AWS_BUCKET']
 LOG_GROUP_NAME= os.environ['LOG_GROUP_NAME']
 if 'CHECK_IF_DONE_BOOL' not in os.environ:
     CHECK_IF_DONE_BOOL = False
+else:
+    CHECK_IF_DONE_BOOL = os.environ['CHECK_IF_DONE_BOOL']
 if 'EXPECTED_NUMBER_FILES' not in os.environ:
     EXPECTED_NUMBER_FILES = 1
+else:
+    EXPECTED_NUMBER_FILES = int(os.environ['EXPECTED_NUMBER_FILES'])
 if 'MIN_FILE_SIZE_BYTES' not in os.environ:
     MIN_FILE_SIZE_BYTES = 1
 else:
