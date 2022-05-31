@@ -149,10 +149,8 @@ def runSomething(message):
     monitorAndLog(subp,logger)
 
     # Figure out a done condition - a number of files being created, a particular file being created, an exit code, etc.
-    # Set its success to the boolean variable `done`
-
-    # Get the outputs and move them to S3
-    if done:
+    # If done, get the outputs and move them to S3
+    if [ENTER DONE CONDITION HERE]:
         time.sleep(30)
         mvtries=0
         while mvtries <3:
