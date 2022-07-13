@@ -7,6 +7,8 @@ parts:
 - caption:
   chapters:
   - file: customizing_DS
+  - file: implementing_DS
+  - file: troubleshooting_implementation
 - caption: Running Distributed-Something
   chapters:
   - file: step_0_prep
@@ -18,5 +20,5 @@ parts:
   - file: step_4_monitor
 - caption:
   chapters:
-  - file: troubleshooting
+  - file: troubleshooting_runs
   - file: versions
