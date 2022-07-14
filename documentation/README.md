@@ -1,12 +1,13 @@
-Read more at
-Make for your use case
-Make sure you update documentation to fit your particular Distributed-Something implementation.
+This folder contains the files to automatically generate documentation for your Distributed-Something distribution using [Jupyter Book](https://jupyterbook.org/en/stable/intro.html).
+This documentation is linked from the main repository README and serves in place of a wiki.
 
-Will auto generate for you at URL every time you push to main.
-Can manually generate with
+Instructions for customizing your Distributed-Something distribution are in the `CREATING DS` section and can be deleted from your repository's documentation you have completed creating your Distributed-Something distribution.
 
-Points at which documentation will need to be updated for your particular implementation:
-- config.yml
-  - author
-  - repository:url:
-  - html:baseurl:
+Documentation for running Distributed-Something are in the `RUNNING DS` section and should be updated to fit your particular Distributed-Something implementation.
+
+This documentation will automatically re-build any time you push to your repository's `main` branch.
+By default, only pages that have undergone edits will rebuild.
+
+To enable this auto-build, you need to set up a GitHub Action in your repository.
+Read more about [GitHub Actions](https://help.github.com/en/actions) and about [hosting Jupyter Books with GitHub Actions](https://jupyterbook.org/en/stable/publish/gh-pages.html?highlight=github#automatically-host-your-book-with-github-actions).
+It will auto-build the documentation to a `gh-pages` branch which will be visible at `githubusername.github.io/yourbookname`.

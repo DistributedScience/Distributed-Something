@@ -1,8 +1,8 @@
 # What is Distributed-Something?
 
-Distributed-Something is a series of scripts designed to help you run a Dockerized version of your software on [Amazon Web Services](https://aws.amazon.com/) using AWS's file storage and computing systems.  
+Distributed-Something is a series of scripts designed to help you run a Dockerized version of your software on [Amazon Web Services](https://aws.amazon.com/) (AWS) using AWS's file storage and computing systems.  
 * Data is stored in S3 buckets.
-* Software is run on "SpotFleets" of computers (or "instances") in the cloud.
+* Software is run on "Spot Fleets" of computers (or instances) in the cloud.
 
 You will need to customize Distributed-Something for your particular use case.
 See [Customizing Distributed-Something](customizing_DS.md) for customization details.
@@ -53,7 +53,7 @@ ECS will keep placing Dockers onto an instance until it is full, so if you accid
 This is also why you may want multiple **ECS_CLUSTER**s so that ECS doesn't blindly place Dockers you intended for one job onto an instance you intended for another job.
 * When a Docker container gets placed it gives the instance it's on its own name.
 * Once an instance has a name, the Docker gives it an alarm that tells it to reboot if it is sitting idle for 15 minutes.
-* The Docker hooks the instance up to the _perinstance logs in Cloudwatch.
+* The Docker hooks the instance up to the _perinstance logs in CloudWatch.
 * The instances look in SQS for a job.
 Any time they don't have a job they go back to SQS.
 If SQS tells them there are no visible jobs then they shut themselves down.

@@ -1,4 +1,4 @@
-name: deploy
+name: deploy-documentation
 
 # Only run this when the master branch changes
 on:
@@ -37,4 +37,3 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./DS-documentation/_build/html
-        cname: distributed-something.github.io

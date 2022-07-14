@@ -1,4 +1,4 @@
-# Customizing Distributed-Something
+# Customizing DS
 
 Distributed-Something is a template.
 It is not fully functional software but is intended to serve as an editable source so that you can quickly and easily implement a distributed workflow for your own dockerized software.
@@ -60,6 +60,7 @@ You might want to remove `2. MOUNT S3` if your workflow doesn't require mounting
 
 `DOCKERHUB_TAG` needs to match the `user` and `project` set in `Makefile`.
 We recommend adjusting `EC2 AND ECS INFORMATION` and `DOCKER INSTANCE RUNNING ENVIRONMENT` variables to reasonable defaults for your Distributed-Something implementation.
+Suggestions for determining optimal parameters can be found in [Implementing Distributed-Something](implementing_DS.md).
 
 If there are any variables you would like to pass to your program as part of configuration, you can add them at the bottom and they will be passed as system variables to the Docker.
 Note that any additional variables added to `config.py` need to also be added to `CONSTANT PATHS IN THE CONTAINER` in `generic-worker.py`.

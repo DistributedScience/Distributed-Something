@@ -4,12 +4,12 @@
 format: jb-book
 root: overview
 parts:
-- caption:
+- caption: Creating DS
   chapters:
   - file: customizing_DS
   - file: implementing_DS
   - file: troubleshooting_implementation
-- caption: Running Distributed-Something
+- caption: Running DS
   chapters:
   - file: step_0_prep
   - file: step_1_configuration
