@@ -53,7 +53,7 @@ This can safely be set to 0 for workflows that don't require much memory or exec
 * **SQS_MESSAGE_VISIBILITY:** How long each job is hidden from view before being allowed to be tried again.
 We recommend setting this to slightly longer than the average amount of time it takes an individual job to process- if you set it too short, you may waste resources doing the same job multiple times; if you set it too long, your instances may have to wait around a long while to access a job that was sent to an instance that stalled or has since been terminated.
 * **SQS_DEAD_LETTER_QUEUE:** The name of the queue to send jobs to if they fail to process correctly multiple times; this keeps a single bad job (such as one where a single file has been corrupted) from keeping your cluster active indefinitely.
-See [[Setting up|Before-you-get-started:-setting-up]] for more information.
+See [Step 0: Prep](step_0_prep.med) for more information.
 
 ***
 
@@ -65,14 +65,12 @@ See [[Setting up|Before-you-get-started:-setting-up]] for more information.
 
 ### REDUNDANCY CHECKS
 
+* **CHECK_IF_DONE_BOOL:** Whether or not to check the output folder before proceeding.
+Case-insensitive.
 If an analysis fails partway through (due to some of the files being in the wrong place, an AWS outage, a machine crash, etc.), setting this to 'True' this allows you to resubmit the whole analysis but only reprocess jobs that haven't already been done.
 This saves you from having to try to parse exactly which jobs succeeded vs failed or from having to pay to rerun the entire analysis.
 If your software determines the correct number of files are already in the output folder it will designate that job as completed and move onto the next one.
-
 If you actually do want to overwrite files that were previously generated (such as when you have improved a pipeline and no longer want the output of the old version), set this to 'False' to process jobs whether or not there are already files in the output folder.
-
-* **CHECK_IF_DONE_BOOL:** Whether or not to check the output folder before proceeding.
-Case-insensitive.
 * **EXPECTED_NUMBER_FILES:** How many files need to be in the output folder in order to mark a job as completed.
 * **MIN_FILE_SIZE_BYTES:** What is the minimal number of bytes an object should be to "count"?
 Useful when trying to detect jobs that may have exported smaller corrupted files vs larger, full-size files.

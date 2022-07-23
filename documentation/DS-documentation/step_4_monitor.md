@@ -7,7 +7,7 @@ Distributed-Something will keep an eye on a few things for you at this point wit
 
 * You can also look at the whole-cluster CPU and memory usage statistics related to your APP_NAME in the [ECS web interface](https://console.aws.amazon.com/ecs/home).
 
-* Each instance will have an alarm placed on it so that if CPU usage to dips below 1% for 15 consecutive minutes (almost always the result of a crashed machine), the instance will be automatically terminated and a new one will take its place.
+* Each instance will have an alarm placed on it so that if CPU usage dips below 1% for 15 consecutive minutes (almost always the result of a crashed machine), the instance will be automatically terminated and a new one will take its place.
 
 * Each individual job processed will create a log of the CellProfiler output, and each Docker container will create a log showing CPU, memory, and disk usage.
 
@@ -24,7 +24,7 @@ The monitor can be run by entering `python run.py monitor files/APP_NAMESpotFlee
 
 * Checks your queue once per minute to see how many jobs are currently processing and how many remain to be processed.
 
-* Once per day, it deletes the alarms for any instances that have been terminated in the last 24 hours (because of spot prices rising above your maximum bid, machine crashes, etc).
+* Once per hour, it deletes the alarms for any instances that have been terminated in the last 24 hours (because of spot prices rising above your maximum bid, machine crashes, etc).
 
 ### When the number of jobs in your queue goes to 0
 
@@ -47,5 +47,5 @@ You can engage cheapest mode by adding `True` as a final configurable parameter 
 
 Cheapest mode is cheapest because it will remove all but 1 machine as soon as that machine crashes and/or runs out of jobs to do; this can save you money, particularly in multi-CPU Dockers running long jobs.
 
-This mode is optional though, because running this way involves some inherent risks- if machines stall out due to processing errors, they will not be replaced, meaning your job will take overall longer.
-Additionally, if there is limited capacity for your requested configuration when you first start (aka you want 200 machines but AWS says it can currently only allocate you 50), more machines will not be added if and when they become available in cheapest mode as they would in normal mode.
+This mode is optional because running this way involves some inherent risks- if machines stall out due to processing errors, they will not be replaced, meaning your job will take overall longer.
+Additionally, if there is limited capacity for your requested configuration when you first start (e.g. you want 200 machines but AWS says it can currently only allocate you 50), more machines will not be added if and when they become available in cheapest mode as they would in normal mode.

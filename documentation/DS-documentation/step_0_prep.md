@@ -31,7 +31,8 @@ In the current interface, it's easiest to click "Create role", select "EC2" from
 * [Create an SQS](http://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSGettingStartedGuide/CreatingQueue.html) queue for unprocessable-messages to be dumped into (aka a DeadLetterQueue).
 
 ### 1.4 Primary Resources
-The following five are resources you need to interact with constantly while working with Distributed-Something. Although at this point you don't need to create anything special there, you can open each console in a separate tab in your browser to keep them handy and monitor DCP's behavior.
+The following five are resources you need to interact with constantly while working with Distributed-Something.
+Although at this point you don't need to create anything special there, you can open each console in a separate tab in your browser to keep them handy and monitor DS's behavior.
 * [S3 Console](https://console.aws.amazon.com/s3)
 * [EC2 Console](https://console.aws.amazon.com/ec2/)
 * [ECS Console](https://console.aws.amazon.com/ecs/)
@@ -58,7 +59,7 @@ Here we assume you are using the command line in a Linux machine, but you are fr
 You will need the scripts in Distributed-Something locally available in your control node.
 <pre>
     sudo apt-get install git
-    git clone https://github.com/cellprofiler/Distributed-Something.git
+    git clone https://github.com/DistributedScience/Distributed-Something.git
     cd Distributed-Something/
     git pull
 </pre>

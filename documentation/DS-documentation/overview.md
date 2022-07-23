@@ -23,12 +23,12 @@ You will also need a Dockerized version of your software.
 
 ## What happens in AWS when I run Distributed-Something?
 
-The steps for actually running the Distributed-Something code are outlined in the repository [README](https://github.com/CellProfiler/Distributed-Something/blob/master/README.md), and details of the parameters you set in each step are on their respective Documentation pages ([Step 1: Config](step_1_configuration.md), [Step 2: Jobs](step_2_submit_jobs.md), [Step 3: Fleet](step_3_start_cluster.md), and optional [Step 4: Monitor](step_4_monitor.md)).
+The steps for actually running the Distributed-Something code are outlined in the repository [README](https://github.com/DistributedScience/Distributed-Something/blob/master/README.md), and details of the parameters you set in each step are on their respective Documentation pages ([Step 1: Config](step_1_configuration.md), [Step 2: Jobs](step_2_submit_jobs.md), [Step 3: Fleet](step_3_start_cluster.md), and optional [Step 4: Monitor](step_4_monitor.md)).
 We'll give an overview of what happens in AWS at each step here and explain what AWS does automatically once you have it set up.
 
 **Step 1**:
 In the Config file you set quite a number of specifics that are used by EC2, ECS, SQS, and in making Dockers.
-When you run `$ python run.py setup` to execute the Config, it does three major things:
+When you run `$ python3 run.py setup` to execute the Config, it does three major things:
 * Creates task definitions.
 These are found in ECS.
 They define the configuration of the Dockers and include the settings you gave for **CHECK_IF_DONE_BOOL**, **DOCKER_CORES**, **EXPECTED_NUMBER_FILES**, and **MEMORY**.
@@ -42,13 +42,12 @@ When you submit the Job file it adds that list of tasks to the queue in SQS (whi
 Submit jobs with `$ python3 run.py submitJob`.
 
 **Step 3**:
-In the Fleet file you set the number and size of the EC2 instances you want.
-Start the fleet with `$ python3 run.py startCluster`.
+In the Config file you set the number and size of the EC2 instances you want.
+This information, along with account-specific configuration in the Fleet file is used to start the fleet with `$ python3 run.py startCluster`.
 
 **After these steps are complete, a number of things happen automatically**:
 * ECS puts Docker containers onto EC2 instances.
-Ideally, you have set the same parameters in your Config file and your Fleet file.
-If there is a mismatch and the Docker is larger than the instance it will not be placed.
+If there is a mismatch within your Config file and the Docker is larger than the instance it will not be placed.
 ECS will keep placing Dockers onto an instance until it is full, so if you accidentally create instances that are too large you may end up with more Dockers placed on it than intended.
 This is also why you may want multiple **ECS_CLUSTER**s so that ECS doesn't blindly place Dockers you intended for one job onto an instance you intended for another job.
 * When a Docker container gets placed it gives the instance it's on its own name.
@@ -63,14 +62,12 @@ If SQS tells them there are no visible jobs then they shut themselves down.
 
 ![Example Instance Configuration](images/sample_DCP_config_1.png)
 
-This is an example of one possible instance configuration using [Distributed-CellProfiler](http://github.com/cellprofiler/distributed-cellprofiler) as an example. This is one m4.16xlarge EC2 instance (64 CPUs, 250GB of RAM) with a 165 EBS volume mounted on it. A spot fleet could contain many such instances.
-
+This is an example of one possible instance configuration using [Distributed-CellProfiler](http://github.com/cellprofiler/distributed-cellprofiler) as an example.
+This is one m4.16xlarge EC2 instance (64 CPUs, 250GB of RAM) with a 165 EBS volume mounted on it. A spot fleet could contain many such instances.
 It has 16 tasks (individual Docker containers).
-
 Each Docker container uses 10GB of hard disk space and is assigned 4 CPUs and 15 GB of RAM (which it does not share with other Docker containers).
-
-Each container shares its individual resources among 4 copies of CellProfiler. Each copy of CellProfiler runs a pipeline on one "job", which can be anything from a single image to an entire 384 well plate or timelapse movie.
-
+Each container shares its individual resources among 4 copies of CellProfiler.
+Each copy of CellProfiler runs a pipeline on one "job", which can be anything from a single image to an entire 384 well plate or timelapse movie.
 You can optionally stagger the start time of these 4 copies of CellProfiler, ensuring that the most memory- or disk-intensive steps aren't happening simultaneously, decreasing the likelihood of a crash.
 
 Read more about this and other configurations in [Step 1: Configuration](step_1_configuration.md).

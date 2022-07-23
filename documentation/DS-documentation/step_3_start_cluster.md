@@ -25,7 +25,7 @@ Looking at the output of this automatically generated spot fleet request can be 
 
 Among the parameters you should/must update:
 
-* **The IamFleetRole, IamInstanceProfile, KeyName, SubnetId, and Groups:** These are account specific and you will have configure these based on the [previous setup work that you did](step_0_prep.md).
+* **The IamFleetRole, IamInstanceProfile, KeyName, SubnetId, and Groups:** These are account specific and you will configure these based on the [previous setup work that you did](step_0_prep.md).
 Once you've created your first complete spot fleet request, you can save a copy as a local template so that you don't have to look these up every time.
 
   * The KeyName used here should be the same used in your config file but **without** the `.pem` extension.

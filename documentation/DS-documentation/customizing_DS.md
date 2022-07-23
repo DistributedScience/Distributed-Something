@@ -1,7 +1,7 @@
 # Customizing DS
 
 Distributed-Something is a template.
-It is not fully functional software but is intended to serve as an editable source so that you can quickly and easily implement a distributed workflow for your own dockerized software.
+It is not fully functional software but is intended to serve as an editable source so that you can quickly and easily implement a distributed workflow for your own Dockerized software.
 
 Examples of implementations can be found at [Distributed-CellProfiler](http://github.com/cellprofiler/distributed-cellprofiler), [Distributed-Fiji](http://github.com/cellprofiler/distributed-fiji), and [Distributed-OmeZarrMaker](http://github.com/cellprofiler/distributed-omezarrmaker).
 
