@@ -2,7 +2,7 @@
 # For your DS implementation, you will need to update author, repository:url:, and html:baseurl:
 
 # Learn more at https://jupyterbook.org/customize/config.html
-title: Documentation
+title: DS Documentation
 author: Broad Institute
 copyright: "2022"
 
@@ -21,7 +21,7 @@ repository:
   path_to_book: documentation/DS-documentation
 
 html:
-  baseurl: distributed-something.github.io
+  baseurl: distributedscience.github.io
   use_repository_button: true
   use_issues_button: true
   use_edit_page_button: true

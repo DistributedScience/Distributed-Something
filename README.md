@@ -3,11 +3,14 @@ Run encapsulated docker containers that do... something in the Amazon Web Servic
 We are interested in scientific image analysis so we have used it for [CellProfiler](https://github.com/CellProfiler/Distributed-CellProfiler), [Fiji](https://github.com/CellProfiler/Distributed-Fiji), and [BioFormats2Raw](https://github.com/CellProfiler/Distributed-OmeZarrMaker).
 You can use it for whatever you want!
 
-[Here's how you adapt this to whatever you need to Distribute](https://github.com/CellProfiler/Distributed-Something/wiki)
+## Documentation
+Full documentation is available on our [Documentation Website](https://distributedscience.github.io/Distributed-Something).
+
+## Overview
 
 This code is an example of how to use AWS distributed infrastructure for running anything Dockerized.
 The configuration of the AWS resources is done using boto3 and the AWS CLI.
-The worker is written in Python and is encapsulated in a Docker container. 
+The worker is written in Python and is encapsulated in a Docker container.
 There are four AWS components that are minimally needed to run distributed jobs:
 
 
