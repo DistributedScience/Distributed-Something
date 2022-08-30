@@ -8,6 +8,7 @@ on:
     # Only run if edits in DS-documentation
     paths:
     - documentation/DS-documentation/**
+    - .github/workflows/deploy.yml
 
 # This job installs dependencies, builds the book, and pushes it to `gh-pages`
 jobs:
