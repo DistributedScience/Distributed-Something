@@ -20,7 +20,7 @@ MACHINE_PRICE = 0.10
 EBS_VOL_SIZE = 30                       # In GB.  Minimum allowed is 22.
 
 # DOCKER INSTANCE RUNNING ENVIRONMENT:
-DOCKER_CORES = 4                        # Number of sofrware processes to run inside a docker container
+DOCKER_CORES = 4                        # Number of software processes to run inside a docker container
 CPU_SHARES = DOCKER_CORES * 1024        # ECS computing units assigned to each docker container (1024 units = 1 core)
 MEMORY = 15000                          # Memory assigned to the docker container in MB
 SECONDS_TO_START = 3*60                 # Wait before the next process is initiated to avoid memory collisions
