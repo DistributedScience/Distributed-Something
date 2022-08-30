@@ -81,7 +81,7 @@ How long a job takes to run and how quickly you need the data may also affect ho
 * Running a few large Docker containers (as opposed to many small ones) increases the amount of memory all the copies of your software are sharing, decreasing the likelihood you'll run out of memory if you stagger your job start times.
 However, you're also at a greater risk of running out of hard disk space.  
 
-Keep an eye on all of the logs the first few times you run any workflow and you'll get a sense of whether your resources are being utilized well or if you need to do more tweaking.
+Keep an eye on all of the logs the first few times you run any workflow and you'll get a sense of whether your resources are being utilized well or if you need to do more tweaking of your configuration.
 
 ## Can I contribute code to Distributed-Something?
 
