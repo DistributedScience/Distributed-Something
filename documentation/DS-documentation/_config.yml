@@ -21,7 +21,6 @@ repository:
   branch: main  # Which branch of the repository should be used when creating links (optional)
 
 html:
-  #favicon: "img/favicon.ico"
   baseurl: distributed-something.github.io
   use_repository_button: true
   use_issues_button: true
