@@ -1,6 +1,6 @@
 # Versions
 
-The most current release can always be found at `cellprofiler/distributed-something`.
+The most current release can always be found at `distributedscience/distributed-something`.
 Current version is 1.0.0.  
 
 ---
