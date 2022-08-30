@@ -12,6 +12,9 @@ For examples that we use in our Distributed-Something suite, you can refer to th
 Once you have made all the alterations to the Distributed-Something code detailed in [Customizing Distributed-Something](customizing_DS.md), you need to make your Distributed-Something Docker image.
 
 You will need a [DockerHub account](https://hub.docker.com).
+Connect to the Docker daemon.
+We find the simplest way to do this is to download and open Docker Desktop.
+You can leave Docker Desktop open in the background while you continue to work at the command line.
 
 <pre>
 # Navigate into the Distributed-Something/worker folder
