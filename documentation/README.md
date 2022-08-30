@@ -9,5 +9,6 @@ This documentation will automatically re-build any time you push to your reposit
 By default, only pages that have undergone edits will rebuild.
 
 To enable this auto-build, you need to set up a GitHub Action in your repository.
+The GitHub Action .yml configuration file is in .github/workflows.
 Read more about [GitHub Actions](https://help.github.com/en/actions) and about [hosting Jupyter Books with GitHub Actions](https://jupyterbook.org/en/stable/publish/gh-pages.html#automatically-host-your-book-with-github-actions).
 It will auto-build the documentation to a `gh-pages` branch which will be visible at `githubusername.github.io/yourbookname`.
