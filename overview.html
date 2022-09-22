@@ -381,6 +381,11 @@ title="Print to PDF"
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-is-docker">
+   What is Docker?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#why-would-i-want-to-use-this">
    Why would I want to use this?
   </a>
@@ -435,6 +440,11 @@ title="Print to PDF"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-is-docker">
+   What is Docker?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#why-would-i-want-to-use-this">
    Why would I want to use this?
   </a>
@@ -481,13 +491,26 @@ title="Print to PDF"
                 
   <section class="tex2jax_ignore mathjax_ignore" id="what-is-distributed-something">
 <h1>What is Distributed-Something?<a class="headerlink" href="#what-is-distributed-something" title="Permalink to this headline">#</a></h1>
-<p>Distributed-Something is a series of scripts designed to help you run a Dockerized version of your software on <a class="reference external" href="https://aws.amazon.com/">Amazon Web Services</a> (AWS) using AWS’s file storage and computing systems.</p>
+<p>Distributed-Something is a series of scripts designed to help you run a Dockerized version of your software on <a class="reference external" href="https://aws.amazon.com/">Amazon Web Services</a> (AWS) using AWS’s file storage and cloud computing systems.</p>
+<p>Distributed-Something:</p>
 <ul class="simple">
-<li><p>Data is stored in S3 buckets.</p></li>
-<li><p>Software is run on “Spot Fleets” of computers (or instances) in the cloud.</p></li>
+<li><p>simplifies the process of distributing and running software in the cloud.</p></li>
+<li><p>decreases the cost of cloud computing by optimizing resources used.</p></li>
+<li><p>makes workflows reproducible.</p></li>
+<li><p>is Python based which makes it broadly accessible to novice computationalists.</p></li>
 </ul>
 <p>You will need to customize Distributed-Something for your particular use case.
 See <a class="reference internal" href="customizing_DS.html"><span class="doc std std-doc">Customizing Distributed-Something</span></a> for customization details.</p>
+<section id="what-is-docker">
+<h2>What is Docker?<a class="headerlink" href="#what-is-docker" title="Permalink to this headline">#</a></h2>
+<p>Docker is a software platform that packages software into containers.
+In a container is the software that you want to run as well as everything needed to run it (e.g. your software source code, operating system libraries, and dependencies).</p>
+<p>Dockerizing a workflow has many benefits including</p>
+<ul class="simple">
+<li><p>Ease of use: Dockerized software doesn’t require the user to install anything themselves.</p></li>
+<li><p>Reproducibility: You don’t need to worry about results being affected by the version of your software or its dependencies being used as those are fixed.</p></li>
+</ul>
+</section>
 <section id="why-would-i-want-to-use-this">
 <h2>Why would I want to use this?<a class="headerlink" href="#why-would-i-want-to-use-this" title="Permalink to this headline">#</a></h2>
 <p>Using AWS allows you to create a flexible, on-demand computing infrastructure where you only have to pay for the resources you use.
@@ -567,7 +590,8 @@ However, you’re also at a greater risk of running out of hard disk space.</p><
 </section>
 <section id="who-made-this">
 <h2>Who made this?<a class="headerlink" href="#who-made-this" title="Permalink to this headline">#</a></h2>
-<p>Distributed-Something is a project from the <a class="reference external" href="https://cimini-lab.broadinstitute.org">Cimini Lab</a> in the Imaging Platform at the Broad Institute in Cambridge, MA, USA. It was initially conceived and implemented for a single use case as <a class="reference external" href="https://github.com/CellProfiler/Distributed-CellProfiler">Distributed-CellProfiler</a> in what is now the <a class="reference external" href="https://carpenter-singh-lab.broadinstitute.org">Carpenter-Singh Lab</a>.</p>
+<p>Distributed-Something is a project from the <a class="reference external" href="https://cimini-lab.broadinstitute.org">Cimini Lab</a> in the Imaging Platform at the Broad Institute in Cambridge, MA, USA.
+It was initially conceived and implemented for a single use case as <a class="reference external" href="https://github.com/CellProfiler/Distributed-CellProfiler">Distributed-CellProfiler</a> in what is now the <a class="reference external" href="https://carpenter-singh-lab.broadinstitute.org">Carpenter-Singh Lab</a>.</p>
 </section>
 <div class="toctree-wrapper compound">
 </div>
