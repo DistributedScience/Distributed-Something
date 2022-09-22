@@ -1,11 +1,24 @@
 # What is Distributed-Something?
 
-Distributed-Something is a series of scripts designed to help you run a Dockerized version of your software on [Amazon Web Services](https://aws.amazon.com/) (AWS) using AWS's file storage and computing systems.  
-* Data is stored in S3 buckets.
-* Software is run on "Spot Fleets" of computers (or instances) in the cloud.
+Distributed-Something is a series of scripts designed to help you run a Dockerized version of your software on [Amazon Web Services](https://aws.amazon.com/) (AWS) using AWS's file storage and cloud computing systems.
+
+Distributed-Something:
+* simplifies the process of distributing and running software in the cloud.
+* decreases the cost of cloud computing by optimizing resources used.
+* makes workflows reproducible.
+* is Python based which makes it broadly accessible to novice computationalists.
 
 You will need to customize Distributed-Something for your particular use case.
 See [Customizing Distributed-Something](customizing_DS.md) for customization details.
+
+## What is Docker?
+
+Docker is a software platform that packages software into containers.
+In a container is the software that you want to run as well as everything needed to run it (e.g. your software source code, operating system libraries, and dependencies).
+
+Dockerizing a workflow has many benefits including
+* Ease of use: Dockerized software doesn't require the user to install anything themselves.
+* Reproducibility: You don't need to worry about results being affected by the version of your software or its dependencies being used as those are fixed.
 
 ## Why would I want to use this?
 
@@ -89,4 +102,5 @@ Feel free!  We're always looking for ways to improve.
 
 ## Who made this?
 
-Distributed-Something is a project from the [Cimini Lab](https://cimini-lab.broadinstitute.org) in the Imaging Platform at the Broad Institute in Cambridge, MA, USA. It was initially conceived and implemented for a single use case as [Distributed-CellProfiler](https://github.com/CellProfiler/Distributed-CellProfiler) in what is now the [Carpenter-Singh Lab](https://carpenter-singh-lab.broadinstitute.org).
+Distributed-Something is a project from the [Cimini Lab](https://cimini-lab.broadinstitute.org) in the Imaging Platform at the Broad Institute in Cambridge, MA, USA.
+It was initially conceived and implemented for a single use case as [Distributed-CellProfiler](https://github.com/CellProfiler/Distributed-CellProfiler) in what is now the [Carpenter-Singh Lab](https://carpenter-singh-lab.broadinstitute.org).
