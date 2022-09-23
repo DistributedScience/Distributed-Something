@@ -423,7 +423,8 @@ def startCluster():
 
     # Step 3: Make the monitor
     starttime=str(int(time.time()*1000))
-    createMonitor=open('files/' + APP_NAME + 'SpotFleetRequestId.json','w')
+    monitor_file_name='files/' + APP_NAME + 'SpotFleetRequestId.json'
+    createMonitor=open(monitor_file_name,'w')
     createMonitor.write('{"MONITOR_FLEET_ID" : "'+requestInfo['SpotFleetRequestId']+'",\n')
     createMonitor.write('"MONITOR_APP_NAME" : "'+APP_NAME+'",\n')
     createMonitor.write('"MONITOR_ECS_CLUSTER" : "'+ECS_CLUSTER+'",\n')
@@ -476,6 +477,7 @@ def startCluster():
         status = ec2client.describe_spot_fleet_instances(SpotFleetRequestId=requestInfo['SpotFleetRequestId'])
 
     print('Spot fleet successfully created. Your job should start in a few minutes.')
+    print(f"Your monitor file is available at {monitor_file_name}")
 
 #################################
 # SERVICE 4: MONITOR JOB
