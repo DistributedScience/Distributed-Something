@@ -2,7 +2,7 @@
 
 ## Make your software Docker
 
-Your software will ned to be containerized in its own Docker.
+Your software will need to be containerized in its own Docker.
 This Docker image is what you will `FROM` in `Dockerfile` when you create your Distributed-Something Docker image.
 Detailed instructions are out of the scope of this documentation, though we refer you to [Docker's documentation](https://docs.docker.com/get-started/).
 For examples that we use in our Distributed-Something suite, you can refer to the code used to make the [CellProfiler Docker](https://github.com/CellProfiler/distribution/tree/master/docker), [BioFormats2Raw Docker](https://github.com/ome/bioformats2raw-docker), and [Fiji Docker](https://github.com/fiji/dockerfiles).
