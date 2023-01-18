@@ -2,14 +2,17 @@
 # Learn more at https://jupyterbook.org/customize/toc.html
 
 format: jb-book
-root: overview
+root: introduction
 parts:
-- caption: Creating DS
+- caption: FAQ
+  chapters:
+  - file: overview
+- caption: Adapting Distributed-Something to a new application
   chapters:
   - file: customizing_DS
   - file: implementing_DS
   - file: troubleshooting_implementation
-- caption: Running DS
+- caption: Running an application made by Distributed-Something as an end user
   chapters:
   - file: step_0_prep
   - file: step_1_configuration
@@ -18,7 +21,7 @@ parts:
   - file: step_2_submit_jobs
   - file: step_3_start_cluster
   - file: step_4_monitor
-- caption:
+- caption: Technical guides
   chapters:
   - file: troubleshooting_runs
   - file: versions
