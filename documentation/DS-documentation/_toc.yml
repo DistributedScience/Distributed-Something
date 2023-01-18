@@ -2,8 +2,11 @@
 # Learn more at https://jupyterbook.org/customize/toc.html
 
 format: jb-book
-root: overview
+root: introduction
 parts:
+- caption: FAQ
+  chapters:
+  - file: overview
 - caption: Adapting Distributed-Something to a new application
   chapters:
   - file: customizing_DS
@@ -18,7 +21,7 @@ parts:
   - file: step_2_submit_jobs
   - file: step_3_start_cluster
   - file: step_4_monitor
-- caption:
+- caption: Technical guides
   chapters:
   - file: troubleshooting_runs
   - file: versions
