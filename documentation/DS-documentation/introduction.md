@@ -22,6 +22,8 @@ Tool users need only Python 3.7+ with `boto3` installed on the machine they wish
 
 Absolutely not! We are aware of and have in many cases used the ones below. Ultimately, the right tool for your use case is the one you can get running, at a compute-cost- and human-hour-price that is optimal for you.
 
-* [Galaxy](link)
-* [Terra](link)
-* [AWS Batch](link)
+* [Galaxy](https://galaxyproject.org/)
+* [Terra](https://terra.bio/)
+* [AWS Batch](https://docs.aws.amazon.com/batch/index.html)
+* [AWS Parallel Cluster](https://docs.aws.amazon.com/parallelcluster/index.html)
+* [AWS Genomics CLI](https://aws.github.io/amazon-genomics-cli/docs/overview/)
