@@ -1,3 +1,4 @@
+(customization)=
 # Customizing DS
 
 Distributed-Something is a template.
