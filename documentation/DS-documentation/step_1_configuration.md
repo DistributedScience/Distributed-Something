@@ -54,13 +54,20 @@ This can safely be set to 0 for workflows that don't require much memory or exec
 * **SQS_MESSAGE_VISIBILITY:** How long each job is hidden from view before being allowed to be tried again.
 We recommend setting this to slightly longer than the average amount of time it takes an individual job to process- if you set it too short, you may waste resources doing the same job multiple times; if you set it too long, your instances may have to wait around a long while to access a job that was sent to an instance that stalled or has since been terminated.
 * **SQS_DEAD_LETTER_QUEUE:** The name of the queue to send jobs to if they fail to process correctly multiple times; this keeps a single bad job (such as one where a single file has been corrupted) from keeping your cluster active indefinitely.
-See [Step 0: Prep](step_0_prep.med) for more information.
+This queue will be automatically made if it doesn't exist already.
 
 ***
 
 ### LOG GROUP INFORMATION
 
 * **LOG_GROUP_NAME:** The name to give the log group that will monitor the progress of your jobs and allow you to check performance or look for problems after the fact.
+
+***
+
+### CLOUDWATCH DASHBOARD CREATION
+
+* **CREATE_DASHBOARD:** Should DS create a Cloudwatch Dashboard that plots run metrics?
+* **CLEAN_DASHBOARD:** Should monitor automatically clean up the Cloudwatch Dashboard at the end of the run?
 
 ***
 
