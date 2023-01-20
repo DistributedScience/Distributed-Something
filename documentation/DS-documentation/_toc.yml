@@ -7,6 +7,8 @@ parts:
 - caption: FAQ
   chapters:
   - file: overview
+  - file: overview_2
+  - file: costs
 - caption: Adapting Distributed-Something to a new application
   chapters:
   - file: customizing_DS
@@ -24,4 +26,5 @@ parts:
 - caption: Technical guides
   chapters:
   - file: troubleshooting_runs
+  - file: hygiene
   - file: versions
