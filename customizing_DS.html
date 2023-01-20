@@ -55,7 +55,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Implementing DS" href="implementing_DS.html" />
-    <link rel="prev" title="What is Distributed-Something?" href="overview.html" />
+    <link rel="prev" title="What does Distributed-Something cost?" href="costs.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -119,6 +119,16 @@ const thebe_selector_output = ".output, .cell_output"
  <li class="toctree-l1">
   <a class="reference internal" href="overview.html">
    What is Distributed-Something?
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="overview_2.html">
+   Using Distributed-Something
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="costs.html">
+   What does Distributed-Something cost?
   </a>
  </li>
 </ul>
@@ -197,6 +207,11 @@ const thebe_selector_output = ".output, .cell_output"
  <li class="toctree-l1">
   <a class="reference internal" href="troubleshooting_runs.html">
    Troubleshooting
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="hygiene.html">
+   AWS Hygiene Scripts
   </a>
  </li>
  <li class="toctree-l1">
@@ -404,6 +419,11 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#using-the-distributed-something-template">
+   Using the Distributed-Something template
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#customization-details">
    Customization details
   </a>
@@ -496,6 +516,11 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#using-the-distributed-something-template">
+   Using the Distributed-Something template
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#customization-details">
    Customization details
   </a>
@@ -574,23 +599,49 @@ title="Print to PDF"
               <div>
                 
   <section class="tex2jax_ignore mathjax_ignore" id="customizing-ds">
-<span id="customization"></span><h1>Customizing DS<a class="headerlink" href="#customizing-ds" title="Permalink to this headline">#</a></h1>
+<h1>Customizing DS<a class="headerlink" href="#customizing-ds" title="Permalink to this headline">#</a></h1>
 <p>Distributed-Something is a template.
 It is not fully functional software but is intended to serve as an editable source so that you can quickly and easily implement a distributed workflow for your own Dockerized software.</p>
-<p>Examples of implementations can be found at <a class="reference external" href="http://github.com/cellprofiler/distributed-cellprofiler">Distributed-CellProfiler</a>, <a class="reference external" href="http://github.com/cellprofiler/distributed-fiji">Distributed-Fiji</a>, and <a class="reference external" href="http://github.com/cellprofiler/distributed-omezarrmaker">Distributed-OmeZarrMaker</a>.</p>
+<p>Examples of implementations can be found at <a class="reference external" href="http://github.com/cellprofiler/distributed-cellprofiler">Distributed-CellProfiler</a>, <a class="reference external" href="http://github.com/cellprofiler/distributed-fiji">Distributed-Fiji</a>, and <a class="reference external" href="http://github.com/cellprofiler/distributed-omezarrcreator">Distributed-OMEZARRCreator</a>.</p>
 <section id="customization-overview">
 <h2>Customization overview<a class="headerlink" href="#customization-overview" title="Permalink to this headline">#</a></h2>
 <p>Before starting to customize Distributed-Something code, do some research on your desired implementation.</p>
 <ol class="simple">
-<li><p>Ask how splittable is the function you want to distribute?
-If the end product you envision cannot easily be split into small tasks then it may not be a good fit for Distributed-Something.</p></li>
-<li><p>Make or find a Docker of the software you want to distribute.
+<li><p><strong>Ask how splittable is the function you want to distribute?</strong>
+Distributed-Something only works on “perfectly parallel” tasks, or tasks that do not communicate with each other while running.
+If the end product you envision cannot easily be split into perfectly parallel tasks, then it may not be a good fit for Distributed-Something.</p></li>
+</ol>
+<p>Scale has a large impact on how splittable your function is.
+For example, if you want to stitch together a set of images into one larger image, that set that you are stitching is the smallest unit you can make your job. Because jobs must be “perfectly parallel”, you cannot distribute the images any further.
+If you’re generally working with datasets that only require a few stitching jobs, Distributed-Something may not be a good fit for your general use case.
+However, if you often work with very large datasets where you need to stitch many sets of images, even though you cannot further parallelize your jobs, distributing stitching tasks with Distributed-Something may still provide a significant savings in time and compute cost.</p>
+<ol class="simple">
+<li><p><strong>Make or find a Docker of the software you want to distribute.</strong>
 You can find over 1000 scientific softwares already Dockerized at <a class="reference external" href="http://biocontainers.pro">Biocontainers</a> and many open-source softwares provide Docker files within their GitHub repositories.
 See <a class="reference internal" href="implementing_DS.html"><span class="doc std std-doc">Implementing Distributed-Something</span></a> for more details.</p></li>
-<li><p>Figure out how to make your software run from the command line.
+<li><p><strong>Figure out how to make your software run from the command line.</strong>
 What parameters do you need to pass to it?
+Are there optional program parameters that you want to require in your Distributed-Something implementation?
 What is generic to how you like to run the application and what is different for each job?</p></li>
+<li><p><strong>Think about how you will set up/access your data so that it is batchable/parallelizeable.</strong>
+Because Distributed-Something is so application specific, there are many approaches one can take to parse a dataset into batches that can be parallelized.
+Implemented examples you can reference are:</p></li>
 </ol>
+<ul class="simple">
+<li><p>In <a class="reference external" href="https://github.com/DistributedScience/Distributed-CellProfiler">Distributed-CellProfiler</a>, we use LoadData.csvs to pass to CellProfiler the exact list of files with their S3 file paths that we want it to access/download for processing.</p></li>
+<li><p>In <a class="reference external" href="https://github.com/DistributedScience/Distributed-Fiji">Distributed-FIJI</a>, we tell it what folder to access and pass upload and download filters for it to select specific files within that folder.</p></li>
+<li><p>In <a class="reference external" href="https://github.com/DistributedScience/Distributed-OMEZARRCreator">Distributed-OMEZARRCreator</a>, the job unit is always the same (one plate of images) so less flexibility is required and the S3 path and plate name passed in the job file is sufficient.</p></li>
+</ul>
+</section>
+<section id="using-the-distributed-something-template">
+<h2>Using the Distributed-Something template<a class="headerlink" href="#using-the-distributed-something-template" title="Permalink to this headline">#</a></h2>
+<p>Distributed-Something is a template repository.
+Read more about <a class="reference external" href="https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template">Github template repositories</a> and follow the instructions to create your own project repository from the template.
+We have chosen to provide DS as a template because it provides new implementations with a clean commit history.
+Because DS is so customizable, we expect that implementations will diverge from the template.
+Unlike forks, for which Github currently provides a “sync fork” function, templates do not have an automatic way of pulling changes from the template into repositories made from the template.
+If you anticipate wanting to keep your implementation more closely linked to the DS template, you can fork the template to create your own project repository instead and use the “sync fork” function as necessary.
+Or, use the six lines of <a class="reference external" href="https://stackoverflow.com/questions/56577184/github-pull-changes-from-a-template-repository/69563752#69563752">code described here</a> to pull template changes into your repository.</p>
 </section>
 <section id="customization-details">
 <h2>Customization details<a class="headerlink" href="#customization-details" title="Permalink to this headline">#</a></h2>
@@ -695,11 +746,11 @@ More configuration information is available in <a class="reference internal" hre
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="overview.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="costs.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">What is Distributed-Something?</p>
+            <p class="prev-next-title">What does Distributed-Something cost?</p>
         </div>
     </a>
     <a class='right-next' id="next-link" href="implementing_DS.html" title="next page">

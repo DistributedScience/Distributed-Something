@@ -121,6 +121,16 @@ const thebe_selector_output = ".output, .cell_output"
    What is Distributed-Something?
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="overview_2.html">
+   Using Distributed-Something
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="costs.html">
+   What does Distributed-Something cost?
+  </a>
+ </li>
 </ul>
 <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
@@ -197,6 +207,11 @@ const thebe_selector_output = ".output, .cell_output"
  <li class="toctree-l1">
   <a class="reference internal" href="troubleshooting_runs.html">
    Troubleshooting
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="hygiene.html">
+   AWS Hygiene Scripts
   </a>
  </li>
  <li class="toctree-l1">
@@ -573,7 +588,9 @@ title="Print to PDF"
 <h1>Step 0: Prep<a class="headerlink" href="#step-0-prep" title="Permalink to this headline">#</a></h1>
 <p>Distributed-Something runs many parallel jobs in EC2 instances that are automatically managed by ECS.
 To get jobs started, a control node to submit jobs and monitor progress is needed.
-This section describes what you need in AWS and in the control node to get started.</p>
+This section describes what you need in AWS and in the control node to get started.
+This guide only needs to be followed once per account.
+(Though we recommend each user has their own control node, further control nodes can be created from an AMI after this guide has been followed to completion once.)</p>
 <section id="aws-configuration">
 <h2>1. AWS Configuration<a class="headerlink" href="#aws-configuration" title="Permalink to this headline">#</a></h2>
 <p>The AWS resources involved in running Distributed-Something can be primarily configured using the <a class="reference external" href="https://aws.amazon.com/console/">AWS Web Console</a>.
@@ -609,8 +626,9 @@ In the current interface, it’s easiest to click “Create role”, select “E
 </section>
 <section id="primary-resources">
 <h3>1.4 Primary Resources<a class="headerlink" href="#primary-resources" title="Permalink to this headline">#</a></h3>
-<p>The following five are resources you need to interact with constantly while working with Distributed-Something.
-Although at this point you don’t need to create anything special there, you can open each console in a separate tab in your browser to keep them handy and monitor DS’s behavior.</p>
+<p>The following five are the primary resources that Distributed-Something interacts with.
+After you have finished preparing for Distributed-Something (this guide), you do not need to directly interact with any of these services outside of Distributed-Something.
+If you would like a granular view of <a class="reference internal" href="overview_2.html"><span class="doc std std-doc">what Distributed-Something is doing while it runs</span></a>, you can open each console in a separate tab in your browser and watch their individual behaviors, though this is not necessary, especially if you run the <a class="reference internal" href="step_4_monitor.html"><span class="doc std std-doc">monitor command</span></a>.</p>
 <ul class="simple">
 <li><p><a class="reference external" href="https://console.aws.amazon.com/s3">S3 Console</a></p></li>
 <li><p><a class="reference external" href="https://console.aws.amazon.com/ec2/">EC2 Console</a></p></li>

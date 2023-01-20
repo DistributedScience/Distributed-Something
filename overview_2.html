@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>SQS QUEUE Information &#8212; DS Documentation</title>
+    <title>Using Distributed-Something &#8212; DS Documentation</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -51,11 +51,11 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
-    <link rel="canonical" href="distributedscience.github.io/SQS_QUEUE_information.html" />
+    <link rel="canonical" href="distributedscience.github.io/overview_2.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Step 2: Submit Jobs" href="step_2_submit_jobs.html" />
-    <link rel="prev" title="Step 1: Configuration" href="step_1_configuration.html" />
+    <link rel="next" title="What does Distributed-Something cost?" href="costs.html" />
+    <link rel="prev" title="What is Distributed-Something?" href="overview.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -115,14 +115,14 @@ const thebe_selector_output = ".output, .cell_output"
   FAQ
  </span>
 </p>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="overview.html">
    What is Distributed-Something?
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="overview_2.html">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    Using Distributed-Something
   </a>
  </li>
@@ -159,24 +159,24 @@ const thebe_selector_output = ".output, .cell_output"
   Running an application made by Distributed-Something as an end user
  </span>
 </p>
-<ul class="current nav bd-sidenav">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="step_0_prep.html">
    Step 0: Prep
   </a>
  </li>
- <li class="toctree-l1 current active has-children">
+ <li class="toctree-l1 has-children">
   <a class="reference internal" href="step_1_configuration.html">
    Step 1: Configuration
   </a>
-  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
   <label for="toctree-checkbox-1">
    <i class="fas fa-chevron-down">
    </i>
   </label>
-  <ul class="current">
-   <li class="toctree-l2 current active">
-    <a class="current reference internal" href="#">
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="SQS_QUEUE_information.html">
      SQS QUEUE Information
     </a>
    </li>
@@ -309,7 +309,7 @@ title="Source repository"
       </li>
       
       <li>
-        <a href="https://github.com/distributedscience/distributed-something/issues/new?title=Issue%20on%20page%20%2FSQS_QUEUE_information.html&body=Your%20issue%20content%20here."
+        <a href="https://github.com/distributedscience/distributed-something/issues/new?title=Issue%20on%20page%20%2Foverview_2.html&body=Your%20issue%20content%20here."
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -326,7 +326,7 @@ title="Open an issue"
       </li>
       
       <li>
-        <a href="https://github.com/distributedscience/distributed-something/edit/main/documentation/DS-documentation/SQS_QUEUE_information.md"
+        <a href="https://github.com/distributedscience/distributed-something/edit/main/documentation/DS-documentation/overview_2.md"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -354,7 +354,7 @@ title="Edit this page"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="_sources/SQS_QUEUE_information.md"
+        <a href="_sources/overview_2.md"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -414,23 +414,18 @@ title="Print to PDF"
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#sqs-queue-name">
-   SQS_QUEUE_NAME
+  <a class="reference internal nav-link" href="#what-happens-in-aws-when-i-run-distributed-something">
+   What happens in AWS when I run Distributed-Something?
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#sqs-dead-letter-queue">
-   SQS_DEAD_LETTER_QUEUE
+  <a class="reference internal nav-link" href="#what-does-this-look-like">
+   What does this look like?
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#sqs-message-visibility">
-   SQS_MESSAGE_VISIBILITY
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#example-sqs-queue">
-   Example SQS Queue
+  <a class="reference internal nav-link" href="#how-do-i-determine-my-configuration">
+   How do I determine my configuration?
   </a>
  </li>
 </ul>
@@ -442,7 +437,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>SQS QUEUE Information</h1>
+                <h1>Using Distributed-Something</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -453,23 +448,18 @@ title="Print to PDF"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#sqs-queue-name">
-   SQS_QUEUE_NAME
+  <a class="reference internal nav-link" href="#what-happens-in-aws-when-i-run-distributed-something">
+   What happens in AWS when I run Distributed-Something?
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#sqs-dead-letter-queue">
-   SQS_DEAD_LETTER_QUEUE
+  <a class="reference internal nav-link" href="#what-does-this-look-like">
+   What does this look like?
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#sqs-message-visibility">
-   SQS_MESSAGE_VISIBILITY
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#example-sqs-queue">
-   Example SQS Queue
+  <a class="reference internal nav-link" href="#how-do-i-determine-my-configuration">
+   How do I determine my configuration?
   </a>
  </li>
 </ul>
@@ -482,35 +472,71 @@ title="Print to PDF"
                 
               <div>
                 
-  <section class="tex2jax_ignore mathjax_ignore" id="sqs-queue-information">
-<h1>SQS QUEUE Information<a class="headerlink" href="#sqs-queue-information" title="Permalink to this headline">#</a></h1>
-<p>This is in-depth information about the configurable components in SQS QUEUE INFORMATION, a section in <a class="reference internal" href="step_1_configuration.html"><span class="doc std std-doc">Step 1: Configuration</span></a> of running Distributed CellProfiler.</p>
-<section id="sqs-queue-name">
-<h2>SQS_QUEUE_NAME<a class="headerlink" href="#sqs-queue-name" title="Permalink to this headline">#</a></h2>
-<p><strong>SQS_QUEUE_NAME</strong> is the name of the queue where all of your jobs are sent. (A queue is exactly what it sounds like - a list of things waiting their turn. Jobs represent one complete run through a CellProfiler pipeline (though each job may involve any number of images. e.g. analysis may require thousands of jobs, each with a single image making one complete CellProfiler run, while making an illumination correction may be a single job that iterates through thousands of images to produce a single output file.)) You want a name that is descriptive enough to distinguish it from other queues. We usually name our queues based on the project and the step or pipeline goal. An example may be something like Hepatocyte_Differentiation_Illum or Lipid_Droplet_Analysis.</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="using-distributed-something">
+<h1>Using Distributed-Something<a class="headerlink" href="#using-distributed-something" title="Permalink to this headline">#</a></h1>
+<section id="what-happens-in-aws-when-i-run-distributed-something">
+<h2>What happens in AWS when I run Distributed-Something?<a class="headerlink" href="#what-happens-in-aws-when-i-run-distributed-something" title="Permalink to this headline">#</a></h2>
+<p>The steps for actually running the Distributed-Something code are outlined in the repository <a class="reference external" href="https://github.com/DistributedScience/Distributed-Something/blob/master/README.md">README</a>, and details of the parameters you set in each step are on their respective Documentation pages (<a class="reference internal" href="step_1_configuration.html"><span class="doc std std-doc">Step 1: Config</span></a>, <a class="reference internal" href="step_2_submit_jobs.html"><span class="doc std std-doc">Step 2: Jobs</span></a>, <a class="reference internal" href="step_3_start_cluster.html"><span class="doc std std-doc">Step 3: Fleet</span></a>, and optional <a class="reference internal" href="step_4_monitor.html"><span class="doc std std-doc">Step 4: Monitor</span></a>).
+We’ll give an overview of what happens in AWS at each step here and explain what AWS does automatically once you have it set up.</p>
+<p><img alt="Distributed-Something Chronological Overview" src="_images/Distributed-Something_chronological_overview.png" /></p>
+<p><strong>Step 1 (A)</strong>:
+In the Config file you set quite a number of specifics that are used by EC2, ECS, SQS, and in making Dockers.
+When you run <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">python3</span> <span class="pre">run.py</span> <span class="pre">setup</span></code> to execute the Config, it does three major things:</p>
+<ul class="simple">
+<li><p>Creates task definitions.
+These are found in ECS.
+They define the configuration of the Dockers and include the settings you gave for <strong>CHECK_IF_DONE_BOOL</strong>, <strong>DOCKER_CORES</strong>, <strong>EXPECTED_NUMBER_FILES</strong>, and <strong>MEMORY</strong>.</p></li>
+<li><p>Makes a queue in SQS (it is empty at this point) and sets a dead-letter queue.</p></li>
+<li><p>Makes a service in ECS which defines how many Dockers you want.</p></li>
+</ul>
+<p><strong>Step 2 (B)</strong>:
+In the Job file you set the location of any inputs (e.g. data and batch-specific scripts) and outputs.
+Additionally, you list all of the individual tasks that you want run.
+When you submit the Job file it adds that list of tasks to the queue in SQS (which you made in the previous step).
+Submit jobs with <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">python3</span> <span class="pre">run.py</span> <span class="pre">submitJob</span></code>.</p>
+<p><strong>Step 3 (C)</strong>:
+In the Config file you set the number and size of the EC2 instances you want.
+This information, along with account-specific configuration in the Fleet file is used to start the fleet with <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">python3</span> <span class="pre">run.py</span> <span class="pre">startCluster</span></code>.</p>
+<p><strong>After these steps are complete, a number of things happen automatically (D)</strong>:</p>
+<ul class="simple">
+<li><p>ECS puts Docker containers onto EC2 instances.
+If there is a mismatch within your Config file and the Docker is larger than the instance it will not be placed.
+ECS will keep placing Dockers onto an instance until it is full, so if you accidentally create instances that are too large you may end up with more Dockers placed on it than intended.
+This is also why you may want multiple <strong>ECS_CLUSTER</strong>s so that ECS doesn’t blindly place Dockers you intended for one job onto an instance you intended for another job.</p></li>
+<li><p>When a Docker container gets placed it gives the instance it’s on its own name.</p></li>
+<li><p>Once an instance has a name, the Docker gives it an alarm that tells it to reboot if it is sitting idle for 15 minutes.</p></li>
+<li><p>The Docker hooks the instance up to the _perinstance logs in CloudWatch.</p></li>
+<li><p>The instances look in SQS for a job.
+Any time they don’t have a job they go back to SQS.
+If SQS tells them there are no visible jobs then they shut themselves down.</p></li>
+<li><p>When an instance finishes a job it sends a message to SQS and removes that job from the queue.</p></li>
+</ul>
+<p><strong>Optional Step 4 (E)</strong>:
+If you choose to run <code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">run.py</span> <span class="pre">monitor</span></code> it will automatically scale down your hardware (e.g. intelligently scale down your spot fleet request) during a run and clean up all of the infrastructure you created for the run at the end of the run.</p>
 </section>
-<section id="sqs-dead-letter-queue">
-<h2>SQS_DEAD_LETTER_QUEUE<a class="headerlink" href="#sqs-dead-letter-queue" title="Permalink to this headline">#</a></h2>
-<p><strong>SQS_DEAD_LETTER_QUEUE</strong> is the name of the queue where all the jobs that failed to run are sent. If everything goes perfectly, this will always remain empty. If jobs that are in the queue fail multiple times (our default is 10) they are moved to the dead-letter queue, which is not used to initiate jobs. The dead-letter queue therefore functions effectively as a log so you can see if any of your jobs failed. It is different from your other queue as machines do not try and pull jobs from it. Protip: Each member of our team maintains their own dead-letter queue so we don’t have to worry about finding messages if multiple people are running jobs at the same time. We use names like DeadMessages_Erin.</p>
-<p>If all of your jobs end up in your dead-letter queue there are many different places you could have a problem. Hopefully, you’ll keep an eye on the logs in your CloudWatch (the part of AWS used for monitoring what all your other AWS services are doing) after starting a run and catch the issue before all of your jobs fail multiple times.</p>
-<p>If a single job ends up in your dead-letter queue while the rest of your jobs complete successfully, it is likely that that an image is corrupted (a corrupted image is one that has failed to save properly or has been damaged so that it will not open). This is true whether your pipeline processes a single image at a time (such as in analysis runs where you’re interested in cellular measurements on a per-image basis) or whether your pipeline processes many images at a time (such as when making an illumination correction image on a per-plate basis). This is the major reason why we have the dead-letter queue: you certainly don’t want to pay for your cluster to indefinitely attempt to process a corrupted image. Keeping an eye on your CloudWatch logs wouldn’t necessarily help you catch this kind of error because you could have tens or hundreds of successful jobs run before an instance pulls the job for the corrupted image, or the corrupted image could be thousands of images into an illumination correction run, etc.</p>
+<section id="what-does-this-look-like">
+<h2>What does this look like?<a class="headerlink" href="#what-does-this-look-like" title="Permalink to this headline">#</a></h2>
+<p><img alt="Example Instance Configuration" src="_images/sample_DCP_config_1.png" /></p>
+<p>This is an example of one possible instance configuration using <a class="reference external" href="http://github.com/cellprofiler/distributed-cellprofiler">Distributed-CellProfiler</a> as an example.
+This is one m4.16xlarge EC2 instance (64 CPUs, 250GB of RAM) with a 165 EBS volume mounted on it. A spot fleet could contain many such instances.
+It has 16 tasks (individual Docker containers).
+Each Docker container uses 10GB of hard disk space and is assigned 4 CPUs and 15 GB of RAM (which it does not share with other Docker containers).
+Each container shares its individual resources among 4 copies of CellProfiler.
+Each copy of CellProfiler runs a pipeline on one “job”, which can be anything from a single image to an entire 384 well plate or timelapse movie.
+You can optionally stagger the start time of these 4 copies of CellProfiler, ensuring that the most memory- or disk-intensive steps aren’t happening simultaneously, decreasing the likelihood of a crash.</p>
+<p>Read more about this and other configurations in <a class="reference internal" href="step_1_configuration.html"><span class="doc std std-doc">Step 1: Configuration</span></a>.</p>
 </section>
-<section id="sqs-message-visibility">
-<h2>SQS_MESSAGE_VISIBILITY<a class="headerlink" href="#sqs-message-visibility" title="Permalink to this headline">#</a></h2>
-<p><strong>SQS_MESSAGE_VISIBILITY</strong> controls how long jobs are hidden after being pulled by a machine to run. Jobs must be visible (i.e. not hidden) in order to be pulled by a Docker and therefore run. In other words, the time you enter in SQS_MESSAGE_VISIBILITY is how long a job is allowed a chance to complete before it is unhidden and made available to be started by a different copy of CellProfiler. It’s quite important to set this time correctly- we typically say to estimate 1.5X how long the job typically takes to run (or your best guess of that if you’re not sure). To understand why, and the consequences of setting an incorrect time, let’s look more carefully at the SQS queue.</p>
-<p>The SQS queue has two categories - “Messages Available” and “Messages In Flight”. Each message is a job and regardless of the category it’s in, the jobs all remain in the same queue. In effect, “In Flight” means currently hiding and “Available” means not currently hiding.</p>
-<p>When you submit your Config file to AWS it creates your queue in SQS but that queue starts out empty. When you submit your Jobs file to AWS it puts all of your jobs into the queue under “Messages Available”. When you submit your Fleet file to AWS it 1) creates machines in EC2, 2) ECS puts Docker containers on those instances, and 3) those instances look in “Messages Available” in SQS for jobs to run.</p>
-<p>Once a Docker has pulled a job, that job moves from “Available’ to “In Flight”. It remains hidden (“In Flight”) for the duration of time set in SQS_MESSAGE_VISIBILITY and then it becomes visible again (“Available”). Jobs are hidden so that multiple machines don’t process the same job at the same time. If the job completes successfully, the Docker tells the queue to delete that message.</p>
-<p>If the job completes but it is not successful (e.g. CellProfiler errors), the Docker tells the queue to move the job from “In Flight” to “Available” so another Docker (with a different copy of CellProfiler) can attempt to complete the job.</p>
-<p>If the SQS_MESSAGE_VISIBILITY is too short then a job will become unhidden even though it is still currently being (hopefully successfully) run by the Docker that originally picked it up. This means that another Docker may come along and start the same job and you end up paying for unnecessary compute time because both Dockers will continue to run the job until they each finish.</p>
-<p>If the SQS_MESSAGE_VISIBILITY is too long then you can end up wasting time and money waiting for the job to become available again after a crash even when the rest of your analysis is done. If anything causes a job to stop mid-run (e.g. CellProfiler crashes, the instance crashes, or the instance is removed by AWS because you are outbid), that job stays hidden until the set time. If a Docker instance goes to the queue and doesn’t find any visible jobs, then it does not try to run any more jobs in that copy of CellProfiler, limiting the effective computing power of that Docker.  Therefore, some or all of your instances may hang around doing nothing (but costing money) until the job is visible again. When in doubt, it is better to have your SQS_MESSAGE_VISIBILITY set too long than too short because, while crashes can happen, it is rare that AWS takes small machines from your fleet, though we do notice it happening with larger machines.</p>
-<p>There is not an easy way to see if you have selected the appropriate amount of time for your SQS_MESSAGE_VISIBILITY on your first run through a brand new pipeline. To confirm that multiple Dockers didn’t run the same job, after the jobs are complete, you need to manually go through each log in CloudWatch and figure out how many times you got the word “SUCCESS” in each log. (This may be reasonable to do on an illumination correction run where you have a single job per plate, but it’s not so reasonable if running an analysis pipeline on thousands of individual images). To confirm that multiple Dockers are never processing the same job, you can keep an eye on your queue and make sure that you never have more jobs “In Flight” than the number of copies of CellProfiler that you have running; likewise, if your timeout time is too short, it may seem like too few jobs are “In Flight” even though the CPU usage on all your machines is high.</p>
-<p>Once you have run a pipeline once, you can check the execution time (either by noticing how long after you started your jobs that your first jobs begin to finish, or by checking the logs of individual jobs and noting the start and end time), you will then have an accurate idea of roughly how long that pipeline needs to execute, and can set your message visibility accordingly.  You can even do this on the fly while jobs are currently processing; the updated visibility time won’t affect the jobs already out for processing (ie if the time was set to 3 hours and you change it to 1 hour, the jobs already processing will remain hidden for 3 hours or until finished), but any job that begins processing AFTER the change will use the new visibility timeout setting.</p>
-</section>
-<section id="example-sqs-queue">
-<h2>Example SQS Queue<a class="headerlink" href="#example-sqs-queue" title="Permalink to this headline">#</a></h2>
-<p>[[images/Sample_SQS_Queue.png|alt=”Sample_SQS_Queue”]]</p>
-<p>This is an example of an SQS Queue. You can see that there is one active task with 64 jobs in it. In this example, we are running a fleet of 32 instances, each with a single Docker, so at this moment (right after starting the fleet), there are 32 tasks “In Flight” and 32 tasks that are still “Available.” You can also see that many lab members have their own dead-letter queues which are, fortunately, all currently empty.</p>
+<section id="how-do-i-determine-my-configuration">
+<h2>How do I determine my configuration?<a class="headerlink" href="#how-do-i-determine-my-configuration" title="Permalink to this headline">#</a></h2>
+<p>To some degree, you determine the best configuration for your needs through trial and error.</p>
+<ul class="simple">
+<li><p>Looking at the resources your software uses on your local computer when it runs your jobs can give you a sense of roughly how much hard drive and memory space each job requires, which can help you determine your group size and what machines to use.</p></li>
+<li><p>Prices of different machine sizes fluctuate, so the choice of which type of machines to use in your spot fleet is best determined at the time you run it.
+How long a job takes to run and how quickly you need the data may also affect how much you’re willing to bid for any given machine.</p></li>
+<li><p>Running a few large Docker containers (as opposed to many small ones) increases the amount of memory all the copies of your software are sharing, decreasing the likelihood you’ll run out of memory if you stagger your job start times.
+However, you’re also at a greater risk of running out of hard disk space.</p></li>
+</ul>
+<p>Keep an eye on all of the logs the first few times you run any workflow and you’ll get a sense of whether your resources are being utilized well or if you need to do more tweaking of your configuration.</p>
 </section>
 </section>
 
@@ -541,17 +567,17 @@ title="Print to PDF"
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="step_1_configuration.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="overview.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Step 1: Configuration</p>
+            <p class="prev-next-title">What is Distributed-Something?</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="step_2_submit_jobs.html" title="next page">
+    <a class='right-next' id="next-link" href="costs.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Step 2: Submit Jobs</p>
+        <p class="prev-next-title">What does Distributed-Something cost?</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>
