@@ -471,11 +471,11 @@ def create_dashboard(requestInfo):
         print (response['DashboardValidationMessages'])
 
 
-def clean_dashboard():
+def clean_dashboard(monitorapp):
     cloudwatch = boto3.client("cloudwatch")
     dashboard_list = cloudwatch.list_dashboards()
     for entry in dashboard_list["DashboardEntries"]:
-        if APP_NAME in entry["DashboardName"]:
+        if monitorapp in entry["DashboardName"]:
             cloudwatch.delete_dashboards(DashboardNames=[entry["DashboardName"]])
 
 #################################
@@ -757,7 +757,7 @@ def monitor(cheapest=False):
     removeClusterIfUnused(monitorcluster, ecs)
     # Remove Cloudwatch dashboard if created and cleanup desired
     if CREATE_DASHBOARD and CLEAN_DASHBOARD:
-        clean_dashboard()
+        clean_dashboard(monitorapp)
 
     #Step 6: Export the logs to S3
     logs=boto3.client('logs')
