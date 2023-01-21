@@ -90,4 +90,6 @@ More configuration information is available in [Step 1: Configuration](step_1_co
 
 #### run.py
 
+You need to customize the Dashboard creation function by changing 'start run' to whatever your run command is.
 If you have changed anything in config.py, you will need to edit the section on Task Definitions to match.
+

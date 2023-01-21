@@ -64,16 +64,17 @@ The relative slope of your graph can also be informative.
 For the run pictured at top, we discovered that a fraction of our jobs were erroring because the machines were running out of memory. 
 Midway through 7/12 we upped the memory of the machines in our fleet and you can see from that point on a greater slope as more jobs were finishing in the same amount of time (as fewer were failing to complete because of memory errors.)
 
-## Distinct Logs with “cellprofiler -c”
+## Distinct Logs
 
-![Distinct Logs with “cellprofiler -c”](images/logs_comparison.png)
+![Logs comparison](images/logs_comparison.png)
 
-This widget shows you the number of different specific CellProfiler jobs that start within your given time window. 
+This widget shows you the number of different specific jobs that start within your given time window by plotting the number of Cloudwatch logs that have your run command in them. 
+In this example, our run command is "cellprofiler -c".
 It is not necessarily informative on its own, but very helpful when compared with the following widget.
 
-## “cellprofiler -c”
-This widget shows you the number of times that CellProfiler is started within your log group within the given time window. 
-Ideally, you want this number to match the number in the previous widget as it means that each job is starting in CellProfiler only once. 
+## All logs
+This widget shows you the number of total times that jobs are started within your log group within the given time window. 
+Ideally, you want this number to match the number in the previous widget as it means that each job is starting in your software only once. 
 
 If this number is consistently larger than the previous widget’s number, it could mean that some of your jobs are erroring and you’ll need to figure out why (see MemoryUtilization and Show Errors or look directly in your Cloudwatch Logs for insights).
 

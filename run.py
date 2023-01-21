@@ -342,6 +342,7 @@ def export_logs(logs, loggroupId, starttime, bucketId):
 
 def create_dashboard(requestInfo):
     cloudwatch = boto3.client("cloudwatch")
+    # Change 'start run' to whatever your run command is
     DashboardMessage = {
         "widgets": [
             {
@@ -391,7 +392,7 @@ def create_dashboard(requestInfo):
                 "type": "metric",
                 "properties": {
                     "metrics": [
-                        [ "AWS/SQS", "ApproximateNumberOfMessagesVisible", "QueueName", "2021_04_26_Production_AnalysisQueue" ],
+                        [ "AWS/SQS", "ApproximateNumberOfMessagesVisible", "QueueName", f"{APP_NAME}Queue" ],
                         [ ".", "ApproximateNumberOfMessagesNotVisible", ".", "."],
                     ],
                     "view": "timeSeries",
@@ -408,10 +409,10 @@ def create_dashboard(requestInfo):
                 "x": 12,
                 "type": "log",
                 "properties": {
-                    "query": f"SOURCE {APP_NAME} | fields @message| filter @message like 'cellprofiler -c'| stats count_distinct(@message)\n",
+                    "query": f"SOURCE {APP_NAME} | fields @message| filter @message like 'start run'| stats count_distinct(@message)",
                     "region": AWS_REGION,
                     "stacked": False,
-                    "title": "Distinct Logs with \"cellprofiler -c\"",
+                    "title": "Distinct Logs",
                     "view": "table"
                 }
             },
@@ -422,10 +423,10 @@ def create_dashboard(requestInfo):
                 "x": 0,
                 "type": "log",
                 "properties": {
-                    "query": f"SOURCE {APP_NAME} | fields @message| filter @message like 'cellprofiler -c'| stats count(@message)",
+                    "query": f"SOURCE {APP_NAME} | fields @message| filter @message like 'start run'| stats count(@message)",
                     "region": AWS_REGION,
                     "stacked": False,
-                    "title": "All Logs \"cellprofiler -c\"",
+                    "title": "All Logs",
                     "view": "table"
                 }
             },
@@ -436,7 +437,7 @@ def create_dashboard(requestInfo):
                 "x": 0,
                 "type": "log",
                 "properties": {
-                    "query": f"SOURCE {APP_NAME} | fields @message\n\n   | filter @message like \"Error\"\n\n   | display @message\n",
+                    "query": f"SOURCE {APP_NAME} | fields @message | filter @message like \"Error\"\n\n   | display @message",
                     "region": AWS_REGION,
                     "stacked": False,
                     "title": "Errors",
