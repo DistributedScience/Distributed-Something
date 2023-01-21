@@ -1,24 +1,49 @@
-(customization)=
 # Customizing DS
 
 Distributed-Something is a template.
 It is not fully functional software but is intended to serve as an editable source so that you can quickly and easily implement a distributed workflow for your own Dockerized software.
 
-Examples of sophisticated implementations can be found at [Distributed-CellProfiler](http://github.com/DistributedScience/distributed-cellprofiler), [Distributed-Fiji](http://github.com/DistributedScience/distributed-fiji), and [Distributed-OmeZarrMaker](http://github.com/DistributedScience/distributed-omezarrmaker).
+Examples of sophisticated implementations can be found at [Distributed-CellProfiler](http://github.com/DistributedScience/distributed-cellprofiler), [Distributed-Fiji](http://github.com/DistributedScience/distributed-fiji), and [Distributed-OmeZarrCreator](http://github.com/DistributedScience/distributed-omezarrcreator).
 We have also created a minimal, fully functional example at [Distributed-HelloWorld](http://github.com/DistributedScience/distributed-helloworld).
 
 ## Customization overview
 
 Before starting to customize Distributed-Something code, do some research on your desired implementation.
 
-1) Ask how splittable is the function you want to distribute?
-If the end product you envision cannot easily be split into small tasks then it may not be a good fit for Distributed-Something.
-2) Make or find a Docker of the software you want to distribute.
+1) **Ask how splittable is the function you want to distribute?**
+Distributed-Something only works on "perfectly parallel" tasks, or tasks that do not communicate with each other while running.
+If the end product you envision cannot easily be split into perfectly parallel tasks, then it may not be a good fit for Distributed-Something.
+
+Scale has a large impact on how splittable your function is.
+For example, if you want to stitch together a set of images into one larger image, that set that you are stitching is the smallest unit you can make your job. Because jobs must be "perfectly parallel", you cannot distribute the images any further.
+If you're generally working with datasets that only require a few stitching jobs, Distributed-Something may not be a good fit for your general use case.
+However, if you often work with very large datasets where you need to stitch many sets of images, even though you cannot further parallelize your jobs, distributing stitching tasks with Distributed-Something may still provide a significant savings in time and compute cost.
+
+2) **Make or find a Docker of the software you want to distribute.**
 You can find over 1000 scientific softwares already Dockerized at [Biocontainers](http://biocontainers.pro) and many open-source softwares provide Docker files within their GitHub repositories.
 See [Implementing Distributed-Something](implementing_DS.md) for more details.
-3) Figure out how to make your software run from the command line.
+
+3) **Figure out how to make your software run from the command line.**
 What parameters do you need to pass to it?
+Are there optional program parameters that you want to require in your Distributed-Something implementation?
 What is generic to how you like to run the application and what is different for each job?
+
+4) **Think about how you will set up/access your data so that it is batchable/parallelizeable.**
+Because Distributed-Something is so application specific, there are many approaches one can take to parse a dataset into batches that can be parallelized.
+Implemented examples you can reference are:
+- In [Distributed-CellProfiler](https://github.com/DistributedScience/Distributed-CellProfiler), we use LoadData.csvs to pass to CellProfiler the exact list of files with their S3 file paths that we want it to access/download for processing. 
+- In [Distributed-FIJI](https://github.com/DistributedScience/Distributed-Fiji), we tell it what folder to access and pass upload and download filters for it to select specific files within that folder. 
+- In [Distributed-OMEZARRCreator](https://github.com/DistributedScience/Distributed-OMEZARRCreator), the job unit is always the same (one plate of images) so less flexibility is required and the S3 path and plate name passed in the job file is sufficient.
+
+## Using the Distributed-Something template
+
+Distributed-Something is a template repository.
+Read more about [Github template repositories](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template) and follow the instructions to create your own project repository from the template.
+We have chosen to provide DS as a template because it provides new implementations with a clean commit history.
+Because DS is so customizable, we expect that implementations will diverge from the template.
+Unlike forks, for which Github currently provides a "sync fork" function, templates do not have an automatic way of pulling changes from the template into repositories made from the template.
+If you anticipate wanting to keep your implementation more closely linked to the DS template, you can fork the template to create your own project repository instead and use the "sync fork" function as necessary.
+Or, use the six lines of [code described here](https://stackoverflow.com/questions/56577184/github-pull-changes-from-a-template-repository/69563752#69563752) to pull template changes into your repository.  
 
 ## Customization details
 
