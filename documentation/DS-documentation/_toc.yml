@@ -25,6 +25,7 @@ parts:
   - file: step_4_monitor
 - caption: Technical guides
   chapters:
+  - file: dashboard
   - file: troubleshooting_runs
   - file: hygiene
   - file: versions

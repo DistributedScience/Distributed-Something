@@ -3,7 +3,8 @@
 Distributed-Something is a template.
 It is not fully functional software but is intended to serve as an editable source so that you can quickly and easily implement a distributed workflow for your own Dockerized software.
 
-Examples of implementations can be found at [Distributed-CellProfiler](http://github.com/cellprofiler/distributed-cellprofiler), [Distributed-Fiji](http://github.com/cellprofiler/distributed-fiji), and [Distributed-OMEZARRCreator](http://github.com/cellprofiler/distributed-omezarrcreator).
+Examples of sophisticated implementations can be found at [Distributed-CellProfiler](http://github.com/DistributedScience/distributed-cellprofiler), [Distributed-Fiji](http://github.com/DistributedScience/distributed-fiji), and [Distributed-OmeZarrCreator](http://github.com/DistributedScience/distributed-omezarrcreator).
+We have also created a minimal, fully functional example at [Distributed-HelloWorld](http://github.com/DistributedScience/distributed-helloworld).
 
 ## Customization overview
 
@@ -115,4 +116,6 @@ More configuration information is available in [Step 1: Configuration](step_1_co
 
 #### run.py
 
+You need to customize the Dashboard creation function by changing 'start run' to whatever your run command is.
 If you have changed anything in config.py, you will need to edit the section on Task Definitions to match.
+

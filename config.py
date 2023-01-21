@@ -28,10 +28,14 @@ SECONDS_TO_START = 3*60                 # Wait before the next process is initia
 # SQS QUEUE INFORMATION:
 SQS_QUEUE_NAME = APP_NAME + 'Queue'
 SQS_MESSAGE_VISIBILITY = 1*60           # Timeout (secs) for messages in flight (average time to be processed)
-SQS_DEAD_LETTER_QUEUE = 'arn:aws:sqs:some-region:111111100000:DeadMessages'
+SQS_DEAD_LETTER_QUEUE = 'user_DeadMessages'
 
 # LOG GROUP INFORMATION:
 LOG_GROUP_NAME = APP_NAME
+
+# CLOUDWATCH DASHBOARD CREATION
+CREATE_DASHBOARD = 'True'           # Create a dashboard in Cloudwatch for run
+CLEAN_DASHBOARD = 'True'            # Automatically remove dashboard at end of run with Monitor
 
 # REDUNDANCY CHECKS
 CHECK_IF_DONE_BOOL = 'False' # True or False - should it check if there are a certain number of non-empty files and delete the job if yes?
