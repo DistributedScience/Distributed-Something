@@ -205,6 +205,11 @@ const thebe_selector_output = ".output, .cell_output"
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
+  <a class="reference internal" href="dashboard.html">
+   AWS Cloudwatch Dashboard
+  </a>
+ </li>
+ <li class="toctree-l1">
   <a class="reference internal" href="troubleshooting_runs.html">
    Troubleshooting
   </a>
@@ -444,6 +449,11 @@ title="Print to PDF"
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#cloudwatch-dashboard-creation">
+     CLOUDWATCH DASHBOARD CREATION
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#redundancy-checks">
      REDUNDANCY CHECKS
     </a>
@@ -502,6 +512,11 @@ title="Print to PDF"
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#log-group-information">
      LOG GROUP INFORMATION
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#cloudwatch-dashboard-creation">
+     CLOUDWATCH DASHBOARD CREATION
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
@@ -583,7 +598,7 @@ This can safely be set to 0 for workflows that don’t require much memory or ex
 <li><p><strong>SQS_MESSAGE_VISIBILITY:</strong> How long each job is hidden from view before being allowed to be tried again.
 We recommend setting this to slightly longer than the average amount of time it takes an individual job to process- if you set it too short, you may waste resources doing the same job multiple times; if you set it too long, your instances may have to wait around a long while to access a job that was sent to an instance that stalled or has since been terminated.</p></li>
 <li><p><strong>SQS_DEAD_LETTER_QUEUE:</strong> The name of the queue to send jobs to if they fail to process correctly multiple times; this keeps a single bad job (such as one where a single file has been corrupted) from keeping your cluster active indefinitely.
-See <span class="xref myst">Step 0: Prep</span> for more information.</p></li>
+This queue will be automatically made if it doesn’t exist already.</p></li>
 </ul>
 </section>
 <hr class="docutils" />
@@ -591,6 +606,14 @@ See <span class="xref myst">Step 0: Prep</span> for more information.</p></li>
 <h3>LOG GROUP INFORMATION<a class="headerlink" href="#log-group-information" title="Permalink to this headline">#</a></h3>
 <ul class="simple">
 <li><p><strong>LOG_GROUP_NAME:</strong> The name to give the log group that will monitor the progress of your jobs and allow you to check performance or look for problems after the fact.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="cloudwatch-dashboard-creation">
+<h3>CLOUDWATCH DASHBOARD CREATION<a class="headerlink" href="#cloudwatch-dashboard-creation" title="Permalink to this headline">#</a></h3>
+<ul class="simple">
+<li><p><strong>CREATE_DASHBOARD:</strong> Should DS create a Cloudwatch Dashboard that plots run metrics?</p></li>
+<li><p><strong>CLEAN_DASHBOARD:</strong> Should monitor automatically clean up the Cloudwatch Dashboard at the end of the run?</p></li>
 </ul>
 </section>
 <hr class="docutils" />

@@ -30,7 +30,6 @@ In the current interface, it's easiest to click "Create role", select "EC2" from
 ### 1.3 Auxiliary Resources
 * [Create an S3 bucket](http://docs.aws.amazon.com/AmazonS3/latest/gsg/CreatingABucket.html) and upload your data to it.
 * Add permissions to your bucket so that [logs can be exported to it](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/S3ExportTasksConsole.html) (Step 3, first code block)
-* [Create an SQS](http://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSGettingStartedGuide/CreatingQueue.html) queue for unprocessable-messages to be dumped into (aka a DeadLetterQueue).
 
 ### 1.4 Primary Resources
 The following five are the primary resources that Distributed-Something interacts with.
