@@ -108,7 +108,7 @@ def generate_task_definition(AWS_PROFILE):
             }]
 
     sqs = boto3.client('sqs')
-    queue_name = get_queue_url(sqs)
+    queue_name, dead_url = get_queue_url(sqs)
     task_definition['containerDefinitions'][0]['environment'] += [
         {
             'name': 'APP_NAME',
@@ -209,7 +209,8 @@ def get_or_create_queue(sqs):
     if dead_url is None:
         print("Creating DeadLetter queue")
         sqs.create_queue(QueueName=SQS_DEAD_LETTER_QUEUE)
-    
+        time.sleep(WAIT_TIME)
+        queue_url, dead_url = get_queue_url(sqs)  
     response = sqs.get_queue_attributes(
         QueueUrl=dead_url, AttributeNames=["QueueArn"]
     )
