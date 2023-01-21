@@ -1,10 +1,11 @@
 # Distributed-Something
 Run encapsulated docker containers that do... something in the Amazon Web Services (AWS) infrastructure.
-We are interested in scientific image analysis so we have used it for [CellProfiler](https://github.com/CellProfiler/Distributed-CellProfiler), [Fiji](https://github.com/CellProfiler/Distributed-Fiji), and [BioFormats2Raw](https://github.com/CellProfiler/Distributed-OmeZarrMaker).
+We are interested in scientific image analysis so we have used it for [CellProfiler](https://github.com/DistributedScience/Distributed-CellProfiler), [Fiji](https://github.com/DistributedScience/Distributed-Fiji), and [BioFormats2Raw](https://github.com/DistributedScience/Distributed-OmeZarrMaker).
 You can use it for whatever you want!
 
 ## Documentation
 Full documentation is available on our [Documentation Website](https://distributedscience.github.io/Distributed-Something).
+We have a fully-functional minimal example of a Distributed-Something application available at [Distributed-HelloWorld](https://github.com/DistributedScience/Distributed-HelloWorld).
 
 ## Overview
 
