@@ -92,6 +92,11 @@ const thebe_selector_output = ".output, .cell_output"
         <div class="bd-sidebar__top"><div class="navbar-brand-box">
     <a class="navbar-brand text-wrap" href="index.html">
       
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="_static/Distributed_Something_Logo_only.png" class="logo" alt="logo">
       
       
       <h1 class="site-logo" id="site-title">DS Documentation</h1>
@@ -422,29 +427,38 @@ title="Print to PDF"
                 
   <section class="tex2jax_ignore mathjax_ignore" id="what-does-distributed-something-cost">
 <h1>What does Distributed-Something cost?<a class="headerlink" href="#what-does-distributed-something-cost" title="Permalink to this headline">#</a></h1>
-<p>Distributed-Something is run by a series of three commands, only one of which incurs costs:</p>
+<p>Distributed-Something is run by a series of three commands, only one of which incurs costs at typical scale of usage:</p>
 <p><a class="reference internal" href="step_1_configuration.html"><span class="doc std std-doc"><code class="docutils literal notranslate"><span class="pre">setup</span></code></span></a> creates a queue in SQS and a cluster, service, and task definition in ECS.
 ECS is entirely free.
 SQS queues are free to create and use up to 1 million requests/month.</p>
 <p><a class="reference internal" href="step_2_submit_jobs.html"><span class="doc std std-doc"><code class="docutils literal notranslate"><span class="pre">submitJobs</span></code></span></a> places messages in the SQS queue which is free (under 1 million requests/month).</p>
-<p><span class="xref myst"><code class="docutils literal notranslate"><span class="pre">startCluster</span></code></span> is the only command that incurs costs.
-It initiates your spot fleet request, the major cost of running Distributed-Something, exact pricing of which depends on the number of machines, type of machines, and duration of use.
+<p><a class="reference internal" href="step_3_start_cluster.html"><span class="doc std std-doc"><code class="docutils literal notranslate"><span class="pre">startCluster</span></code></span></a> is the only command that incurs costs with initiation of your spot fleet request, creating machine alarms, and optionally creating a run dashboard.</p>
+<p>The spot fleet is the major cost of running Distributed-Something, exact pricing of which depends on the number of machines, type of machines, and duration of use.
 Your bid is configured in the <a class="reference internal" href="step_1_configuration.html"><span class="doc std std-doc">config file</span></a>.</p>
 <p>Spot fleet costs can be minimized/stopped in multiple ways:</p>
 <ol class="simple">
-<li><p>We encourage the use of <a class="reference internal" href="step_4_monitor.html"><span class="doc std std-doc"><code class="docutils literal notranslate"><span class="pre">monitor</span></code></span></a> during your job to help minimize the spot fleet cost as it automatically scales down your spot fleet request as your job queue empties and cancels your spot fleet request when you have no more jobs in the queue.</p></li>
+<li><p>We encourage the use of <a class="reference internal" href="step_4_monitor.html"><span class="doc std std-doc"><code class="docutils literal notranslate"><span class="pre">monitor</span></code></span></a> during your job to help minimize the spot fleet cost as it automatically scales down your spot fleet request as your job queue empties and cancels your spot fleet request when you have no more jobs in the queue.
+Note that you can also perform a more aggressive downscaling of your fleet by monitor by engaging Cheapest mode (see <a class="reference internal" href="step_4_monitor.html"><span class="doc std std-doc"><code class="docutils literal notranslate"><span class="pre">more</span> <span class="pre">information</span> <span class="pre">here</span></code></span></a>).</p></li>
 <li><p>If your job is finished, you can still initiate <a class="reference internal" href="step_4_monitor.html"><span class="doc std std-doc"><code class="docutils literal notranslate"><span class="pre">monitor</span></code></span></a> to perform the same cleanup (without the automatic scaling).</p></li>
 <li><p>If you want to abort and clean up a run, you can purge your SQS queue in the <a class="reference external" href="https://console.aws.amazon.com/sqs/">AWS SQS console</a> (by selecting your queue and pressing Actions =&gt; Purge) and then initiate <a class="reference internal" href="step_4_monitor.html"><span class="doc std std-doc"><code class="docutils literal notranslate"><span class="pre">monitor</span></code></span></a> to perform the same cleanup.</p></li>
 <li><p>You can stop the spot fleet request directly in the <a class="reference external" href="https://console.aws.amazon.com/ec2/">AWS EC2 console</a> by going to Instances =&gt; Spot Requests, selecting your spot request, and pressing Actions =&gt; Cancel Spot Request.</p></li>
 </ol>
 <p>After the spot fleet has started, a Cloudwatch instance alarm is automatically placed on each instance in the fleet.
-Cloudwatch instance alarms are currently $0.10/alarm/month.
+Cloudwatch instance alarms <a class="reference external" href="https://aws.amazon.com/cloudwatch/pricing/">are currently $0.10/alarm/month</a>.
 Cloudwatch instance alarm costs can be minimized/stopped in multiple ways:</p>
 <ol class="simple">
 <li><p>If you run monitor during your job, it will automatically delete Cloudwatch alarms for any instance that is no longer in use once an hour while running and at the end of a run.</p></li>
 <li><p>If your job is finished, you can still initiate <a class="reference internal" href="step_4_monitor.html"><span class="doc std std-doc"><code class="docutils literal notranslate"><span class="pre">monitor</span></code></span></a> to delete Cloudwatch alarms for any instance that is no longer in use.</p></li>
 <li><p>In <a class="reference external" href="https://console.aws.amazon.com/cloudwatch/">AWS Cloudwatch console</a> you can select unused alarms by going to Alarms =&gt; All alarms. Change Any State to Insufficient Data, select all alarms, and then Actions =&gt; Delete.</p></li>
 <li><p>We provide a <a class="reference internal" href="hygiene.html"><span class="doc std std-doc">hygiene script</span></a> that will clean up old alarms for you.</p></li>
+</ol>
+<p>Cloudwatch Dashboards <a class="reference external" href="https://aws.amazon.com/cloudwatch/pricing/">are currently free</a> for 3 Dashboards with up to 50 metrics per month and are $3 per dashboard per month after that.
+Cloudwatch Dashboard costs can be minimized/prevented in multiple ways:</p>
+<ol class="simple">
+<li><p>You can choose not to have Distributed-Something create a Dashboard by setting <code class="docutils literal notranslate"><span class="pre">CREATE_DASHBOARD</span> <span class="pre">=</span> <span class="pre">'False'</span></code> in your <a class="reference internal" href="step_1_configuration.html"><span class="doc std std-doc">config file</span></a>.</p></li>
+<li><p>We encourage the use of <a class="reference internal" href="step_4_monitor.html"><span class="doc std std-doc"><code class="docutils literal notranslate"><span class="pre">monitor</span></code></span></a> during your job as if you have set <code class="docutils literal notranslate"><span class="pre">CLEAN_DASHBOARD</span> <span class="pre">=</span> <span class="pre">'True'</span></code> in your <a class="reference internal" href="step_1_configuration.html"><span class="doc std std-doc">config file</span></a> it will automatically delete your Dashboard when your job is done.</p></li>
+<li><p>If your job is finished, you can still initiate <a class="reference internal" href="step_4_monitor.html"><span class="doc std std-doc"><code class="docutils literal notranslate"><span class="pre">monitor</span></code></span></a> to perform the same cleanup (without the automatic scaling).</p></li>
+<li><p>You can manually delete Dashboards in the <span class="xref myst">Cloudwatch Console</span> by going to Dashboards, selecting your Dashboard, and selecting Delete.</p></li>
 </ol>
 </section>
 
