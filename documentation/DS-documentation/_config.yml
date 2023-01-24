@@ -5,6 +5,7 @@
 title: DS Documentation
 author: Broad Institute
 copyright: "2022"
+logo: images/Distributed_Something_Logo_only.png
 
 # Only build files that are in the ToC
 only_build_toc_files: true
