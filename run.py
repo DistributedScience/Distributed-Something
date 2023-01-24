@@ -191,32 +191,30 @@ def create_or_update_ecs_service(ecs, ECS_SERVICE_NAME, ECS_TASK_NAME):
     ecs.create_service(cluster=ECS_CLUSTER, serviceName=ECS_SERVICE_NAME, taskDefinition=ECS_TASK_NAME, desiredCount=0)
     print('Service created')
 
-def get_queue_url(sqs):
+def get_queue_url(sqs, queue_name):
     result = sqs.list_queues()
     queue_url = None
-    dead_url = None
     if 'QueueUrls' in result.keys():
         for u in result['QueueUrls']:
-            if u.split('/')[-1] == SQS_QUEUE_NAME:
+            if u.split('/')[-1] == queue_name:
                 queue_url = u
-            if u.split('/')[-1] == SQS_DEAD_LETTER_QUEUE:
-                dead_url = u
-    return queue_url, dead_url
-
+    return queue_url
 
 def get_or_create_queue(sqs):
-    queue_url, dead_url = get_queue_url(sqs)
+    queue_url = get_queue_url(sqs, SQS_QUEUE_NAME)
+    dead_url = get_queue_url(sqs, SQS_DEAD_LETTER_QUEUE)
     if dead_url is None:
         print("Creating DeadLetter queue")
         sqs.create_queue(QueueName=SQS_DEAD_LETTER_QUEUE)
         time.sleep(WAIT_TIME)
-        queue_url, dead_url = get_queue_url(sqs)  
-    response = sqs.get_queue_attributes(
-        QueueUrl=dead_url, AttributeNames=["QueueArn"]
-    )
-    dead_arn = response["Attributes"]["QueueArn"]
-
-    SQS_DEFINITION = {
+        dead_url = get_queue_url(sqs, SQS_DEAD_LETTER_QUEUE)
+    else:
+        print (f'DeadLetter queue {SQS_DEAD_LETTER_QUEUE} already exists.')
+    if queue_url is None:
+        print('Creating queue')
+        response = sqs.get_queue_attributes(QueueUrl=dead_url, AttributeNames=["QueueArn"])
+        dead_arn = response["Attributes"]["QueueArn"]
+        SQS_DEFINITION = {
         "DelaySeconds": "0",
         "MaximumMessageSize": "262144",
         "MessageRetentionPeriod": "1209600",
@@ -226,8 +224,6 @@ def get_or_create_queue(sqs):
         + '","maxReceiveCount":"10"}',
         "VisibilityTimeout": str(SQS_MESSAGE_VISIBILITY),
     }
-    if queue_url is None:
-        print('Creating queue')
         sqs.create_queue(QueueName=SQS_QUEUE_NAME, Attributes=SQS_DEFINITION)
         time.sleep(WAIT_TIME)
     else:
@@ -757,6 +753,7 @@ def monitor(cheapest=False):
     deregistertask(ECS_TASK_NAME,ecs)
     print("Removing cluster if it's not the default and not otherwise in use")
     removeClusterIfUnused(monitorcluster, ecs)
+    
     # Remove Cloudwatch dashboard if created and cleanup desired
     if CREATE_DASHBOARD and CLEAN_DASHBOARD:
         clean_dashboard(monitorapp)
