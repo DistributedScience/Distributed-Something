@@ -14,10 +14,6 @@ CLEAN_DASHBOARD = False
 
 from config import *
 
-# Back compatability with old config requirements
-if ':' in SQS_DEAD_LETTER_QUEUE:
-    SQS_DEAD_LETTER_QUEUE = SQS_DEAD_LETTER_QUEUE.rsplit(':',1)[1]
-
 WAIT_TIME = 60
 MONITOR_TIME = 60
 
@@ -54,22 +50,12 @@ TASK_DEFINITION = {
     ]
 }
 
-SQS_DEFINITION = {
-    "DelaySeconds": "0",
-    "MaximumMessageSize": "262144",
-    "MessageRetentionPeriod": "1209600",
-    "ReceiveMessageWaitTimeSeconds": "0",
-    "RedrivePolicy": "{\"deadLetterTargetArn\":\"" + SQS_DEAD_LETTER_QUEUE + "\",\"maxReceiveCount\":\"10\"}",
-    "VisibilityTimeout": str(SQS_MESSAGE_VISIBILITY)
-}
-
 
 #################################
 # AUXILIARY FUNCTIONS
 #################################
 
 def generate_task_definition(AWS_PROFILE):
-    taskRoleArn = False
     task_definition = TASK_DEFINITION.copy()
 
     config = configparser.ConfigParser()
@@ -86,6 +72,7 @@ def generate_task_definition(AWS_PROFILE):
         print ("Using role for credentials", config[profile_name]['role_arn'])
         taskRoleArn = config[profile_name]['role_arn']
     else:
+        taskRoleArn = False
         if config.has_option(profile_name, 'source_profile'):
             creds = configparser.ConfigParser()
             creds.read(f"{os.environ['HOME']}/.aws/credentials")
@@ -95,6 +82,11 @@ def generate_task_definition(AWS_PROFILE):
         elif config.has_option(profile_name, 'aws_access_key_id'):
             aws_access_key = config[profile_name]['aws_access_key_id']
             aws_secret_key = config[profile_name]['aws_secret_access_key']
+        elif profile_name == 'default':
+            creds = configparser.ConfigParser()
+            creds.read(f"{os.environ['HOME']}/.aws/credentials")
+            aws_access_key = creds['default']['aws_access_key_id']
+            aws_secret_key = creds['default']['aws_secret_access_key'] 
         else:
             print ("Problem getting credentials")
         task_definition['containerDefinitions'][0]['environment'] += [
@@ -108,7 +100,7 @@ def generate_task_definition(AWS_PROFILE):
             }]
 
     sqs = boto3.client('sqs')
-    queue_name, dead_url = get_queue_url(sqs)
+    queue_name = get_queue_url(sqs, SQS_QUEUE_NAME)
     task_definition['containerDefinitions'][0]['environment'] += [
         {
             'name': 'APP_NAME',
