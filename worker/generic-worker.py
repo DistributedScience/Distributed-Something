@@ -113,7 +113,8 @@ def runSomething(message):
     #group_to_run = message["group"]
     #groupkeys = list(group_to_run.keys())
     #groupkeys.sort()
-    #metadataID = '-'.join(groupkeys)
+    #groupvals = [group_to_run[x] for x in groupkeys]
+    #metadataID = '-'.join(groupvals)
 
     # Add a handler with
     # watchtowerlogger=watchtower.CloudWatchLogHandler(log_group=LOG_GROUP_NAME, stream_name=str(metadataID),create_log_group=False)
