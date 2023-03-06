@@ -9,8 +9,8 @@ from base64 import b64encode
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-CREATE_DASHBOARD = False
-CLEAN_DASHBOARD = False
+CREATE_DASHBOARD = 'False'
+CLEAN_DASHBOARD = 'False'
 
 from config import *
 
@@ -638,7 +638,7 @@ def startCluster():
     print('Spot fleet successfully created. Your job should start in a few minutes.')
     print(f"Your monitor file is available at {monitor_file_name}")
 
-    if CREATE_DASHBOARD:
+    if CREATE_DASHBOARD.lower()=='true':
         print ("Creating CloudWatch dashboard for run metrics")
         create_dashboard(requestInfo)
 
@@ -747,7 +747,7 @@ def monitor(cheapest=False):
     removeClusterIfUnused(monitorcluster, ecs)
     
     # Remove Cloudwatch dashboard if created and cleanup desired
-    if CREATE_DASHBOARD and CLEAN_DASHBOARD:
+    if CREATE_DASHBOARD.lower()=='true' and CLEAN_DASHBOARD.lower()=='true':
         clean_dashboard(monitorapp)
 
     #Step 6: Export the logs to S3
