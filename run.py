@@ -696,6 +696,11 @@ def monitor(cheapest=False):
         #1-10 jobs with errors are keeping it rattling around for hours.
         if curtime[-1:]=='9':
             downscaleSpotFleet(queue, fleetId, ec2)
+            # Print spot fleet metrics.
+            spot_fleet_info = ec2.describe_spot_fleet_requests(SpotFleetRequestIds=[fleetId])
+            target = spot_fleet_info['SpotFleetRequestConfigs'][0]['SpotFleetRequestConfig']['TargetCapacity']
+            fulfilled = spot_fleet_info['SpotFleetRequestConfigs'][0]['SpotFleetRequestConfig']['FulfilledCapacity']
+            print(f'Spot fleet has {target} requested instances. {fulfilled} are currently fulfilled.')
         time.sleep(MONITOR_TIME)
 
     # Step 2: When no messages are pending, stop service
