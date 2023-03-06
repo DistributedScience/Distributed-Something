@@ -12,9 +12,29 @@ Distributed-Something will keep an eye on a few things for you at this point wit
 * Each individual job processed will create a log of the CellProfiler output, and each Docker container will create a log showing CPU, memory, and disk usage.
 
 If you choose to run the monitor script, Distributed-Something can be even more helpful.
-The monitor can be run by entering `python run.py monitor files/APP_NAMESpotFleetRequestId.json`; the JSON file containing all the information Distributed-Something needs will have been automatically created when you sent the instructions to start your cluster in the previous step.
+The monitor can be run by entering `python run.py monitor files/APP_NAMESpotFleetRequestId.json`.
 
 (**Note:** You should run the monitor inside [Screen](https://www.gnu.org/software/screen/), [tmux](https://tmux.github.io/), or another comparable service to keep a network disconnection from killing your monitor; this is particularly critical the longer your run takes.)
+
+***
+
+## Monitor file
+
+The JSON monitor file containing all the information Distributed-Something needs will have been automatically created when you sent the instructions to start your cluster in the [previous step](step_3_start_cluster).
+The file itself is quite simple and contains the following information:
+
+```
+{"MONITOR_FLEET_ID" : "sfr-9999ef99-99fc-9d9d-9999-9999999e99ab",
+"MONITOR_APP_NAME" : "2021_12_13_Project_Analysis",
+"MONITOR_ECS_CLUSTER" : "default",
+"MONITOR_QUEUE_NAME" : "2021_12_13_Project_AnalysisQueue",
+"MONITOR_BUCKET_NAME" : "bucket-name",
+"MONITOR_LOG_GROUP_NAME" : "2021_12_13_Project_Analysis",
+"MONITOR_START_TIME" : "1649187798951"}
+```
+
+For any DS run where you have run [`startCluster`](step_3_start_cluster) more than once, the most recent values will overwrite the older values in the monitor file.
+Therefore, if you have started multiple spot fleets (which you might do in different subnets if you are having trouble getting enough capacity in your spot fleet, for example), monitor will only clean up the latest request unless you manually edit the `MONITOR_FLEET_ID` to match the spot fleet you have kept.
 
 ***
 
