@@ -33,6 +33,10 @@ SQS_DEAD_LETTER_QUEUE = 'user_DeadMessages'
 # LOG GROUP INFORMATION:
 LOG_GROUP_NAME = APP_NAME
 
+# MONITORING
+AUTO_MONITOR = 'True'
+MONITOR_SNS = 'arn:aws:sns:us-east-1:123456789123:Monitor' # Only necessary if auto-monitoring
+
 # CLOUDWATCH DASHBOARD CREATION
 CREATE_DASHBOARD = 'True'           # Create a dashboard in Cloudwatch for run
 CLEAN_DASHBOARD = 'True'            # Automatically remove dashboard at end of run with Monitor
