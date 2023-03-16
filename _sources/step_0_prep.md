@@ -9,7 +9,7 @@ This guide only needs to be followed once per account.
 ## 1. AWS Configuration
 
 The AWS resources involved in running Distributed-Something can be primarily configured using the [AWS Web Console](https://aws.amazon.com/console/).
-The architecture of Distributed-Something is based in the [worker pattern](https://aws.amazon.com/blogs/compute/better-together-amazon-ecs-and-aws-lambda/) for distributed systems.
+The architecture of Distributed-Something is based in the [worker pattern](https://web.archive.org/web/20220116213859/https://aws.amazon.com/blogs/compute/better-together-amazon-ecs-and-aws-lambda/) for distributed systems.
 We have adapted and simplified that architecture for Distributed-Something.
 
 You need an active account configured to proceed. Login into your AWS account, and make sure the following list of resources is created:
