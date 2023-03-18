@@ -42,7 +42,7 @@ If SQS tells them there are no visible jobs then they shut themselves down.
 **Optional Step 4 (E)**:
 If you choose to run `python3 run.py monitor` it will automatically scale down your hardware (e.g. intelligently scale down your spot fleet request) during a run and clean up all of the infrastructure you created for the run at the end of the run.
 
-## What does this look like?
+## What does an instance configuration look like?
 
 ![Example Instance Configuration](images/sample_DCP_config_1.png)
 
@@ -66,3 +66,13 @@ How long a job takes to run and how quickly you need the data may also affect ho
 However, you're also at a greater risk of running out of hard disk space.  
 
 Keep an eye on all of the logs the first few times you run any workflow and you'll get a sense of whether your resources are being utilized well or if you need to do more tweaking of your configuration.
+
+## What does this look like on AWS?
+The following five are the primary resources that Distributed-Something interacts with.
+After you have finished [preparing for Distributed-Something](step_0_prep), you do not need to directly interact with any of these services outside of Distributed-Something.
+If you would like a granular view of what Distributed-Something is doing while it runs, you can open each console in a separate tab in your browser and watch their individual behaviors, though this is not necessary, especially if you run the [monitor command](step_4_monitor.md) and/or have DS automatically create a Dashboard for you (see [Configuration](step_1_configuration.md)).
+* [S3 Console](https://console.aws.amazon.com/s3)
+* [EC2 Console](https://console.aws.amazon.com/ec2/)
+* [ECS Console](https://console.aws.amazon.com/ecs/)
+* [SQS Console](https://console.aws.amazon.com/sqs/)
+* [CloudWatch Console](https://console.aws.amazon.com/cloudwatch/)
