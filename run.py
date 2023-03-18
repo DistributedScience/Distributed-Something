@@ -658,12 +658,14 @@ def startCluster():
             "ApproximateNumberOfMessagesNotVisible",
             "ApproximateNumberOfMessagesVisible",
         ]
+        sns = boto3.client("sns")
+        MonitorARN = sns.create_topic(Name="Monitor") # returns ARN since topic already exists
         for metric in metricnames:
             response = cloudwatch.put_metric_alarm(
                 AlarmName=f'{metric}isZero_{APP_NAME}',
                 ActionsEnabled=True,
                 OKActions=[],
-                AlarmActions=[MONITOR_SNS],
+                AlarmActions=[MonitorARN],
                 InsufficientDataActions=[],
                 MetricName=metric,
                 Namespace="AWS/SQS",
