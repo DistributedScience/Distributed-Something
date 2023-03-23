@@ -5,7 +5,7 @@
   "LaunchSpecifications": [
     {
       "ImageId": "ami-fad25980",
-      "KeyName": "your_key_file_name",
+      "KeyName": "your-key-file",
       "IamInstanceProfile": {
         "Arn": "arn:aws:iam::XXXXXXXXXXXX:instance-profile/ecsInstanceRole"
       },
