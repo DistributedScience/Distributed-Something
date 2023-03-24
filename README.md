@@ -33,7 +33,7 @@ It also adds logging and alarms via CloudWatch, helping the user troubleshoot ru
 Edit the config.py file with all the relevant information for your job.
 Then, start creating the basic AWS resources by running the following script:
 
- $ python3 run.py setup
+    python3 run.py setup
 
 This script initializes the resources in AWS.
 Notice that the docker registry is built separately and you can modify the worker code to build your own.
@@ -42,7 +42,7 @@ Any time you modify the worker code, you need to update the docker registry usin
 ### Step 2
 After the first script runs successfully, the job can now be submitted to with the following command:
 
- $ python3 run.py submitJob files/exampleJob.json
+    python3 run.py submitJob files/exampleJob.json
 
 Running the script uploads the tasks that are configured in the json file.  
 You have to customize the exampleJob.json file with information that make sense for your project.
@@ -54,16 +54,16 @@ This code starts a fleet of spot EC2 instances which will run the worker code.
 The worker code is encapsulated in Docker containers, and the code uses ECS services to inject them in EC2.
 All this is automated with the following command:
 
- $ python3 run.py startCluster files/exampleFleet.json
+    python3 run.py startCluster files/exampleFleet.json
 
 After the cluster is ready, the code informs you that everything is setup, and saves the spot fleet identifier in a file for further reference.
 
 ### Step 4
 When the cluster is up and running, you can monitor progress using the following command:
 
- $ python3 run.py monitor files/APP_NAMESpotFleetRequestId.json
+    python3 run.py monitor files/APP_NAMESpotFleetRequestId.json
 
-The file APP_NAMESpotFleetRequestId.json is created after the cluster is setup in step 3.
+The file `APP_NAMESpotFleetRequestId.json` is created after the cluster is setup in [step 3](#step-3).
 It is important to keep this monitor running if you want to automatically shutdown computing resources when there are no more tasks in the queue (recommended).
 
 See our [full documentation](https://distributedscience.github.io/Distributed-Something) for more information about each step of the process.

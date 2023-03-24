@@ -12,18 +12,18 @@ FROM someuser/somedocker:sometag
 USER root
 RUN apt-get -y update           && \
     apt-get -y upgrade          && \
-    apt-get -y install 		\
-	automake 		\
-	autotools-dev 		\
-	g++ 			\
-	git 			\
-	libcurl4-gnutls-dev 	\
-	libfuse-dev 		\
-	libssl-dev 		\
-	libxml2-dev 		\
-	make pkg-config		\
-	sysstat			\
-	curl
+    apt-get -y install          \
+        automake                \
+        autotools-dev           \
+        g++                     \
+        git                     \
+        libcurl4-gnutls-dev     \
+        libfuse-dev             \
+        libssl-dev              \
+        libxml2-dev             \
+        make pkg-config         \
+        sysstat                 \
+        curl
 
 WORKDIR /usr/local/src
 RUN git clone https://github.com/s3fs-fuse/s3fs-fuse.git
