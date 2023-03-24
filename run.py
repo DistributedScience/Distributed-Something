@@ -13,6 +13,7 @@ CREATE_DASHBOARD = 'False'
 CLEAN_DASHBOARD = 'False'
 
 from config import *
+from fleet import *
 
 WAIT_TIME = 60
 MONITOR_TIME = 60
@@ -557,26 +558,84 @@ def startCluster():
         print('Use: run.py startCluster configFile')
         sys.exit()
 
-    thistime = datetime.datetime.now().replace(microsecond=0)
-    #Step 1: set up the configuration files
+    #Step 1: Configure the Spot Fleet Request
+    ec2client=boto3.client('ec2')
     s3client = boto3.client('s3')
+    iam=boto3.client('iam')
+
     ecsConfigFile=generateECSconfig(ECS_CLUSTER,APP_NAME,AWS_BUCKET,s3client)
     spotfleetConfig=loadConfig(sys.argv[2])
-    spotfleetConfig['ValidFrom']=thistime
-    spotfleetConfig['ValidUntil']=(thistime+datetime.timedelta(days=365)).replace(microsecond=0)
-    spotfleetConfig['TargetCapacity']= CLUSTER_MACHINES
-    spotfleetConfig['SpotPrice'] = '%.2f' %MACHINE_PRICE
+
+    # Still need to figure out how these fit in
+    """
     DOCKER_BASE_SIZE = int(round(float(EBS_VOL_SIZE)/int(TASKS_PER_MACHINE))) - 2
     userData=generateUserData(ecsConfigFile,DOCKER_BASE_SIZE)
     for LaunchSpecification in range(0,len(spotfleetConfig['LaunchSpecifications'])):
         spotfleetConfig['LaunchSpecifications'][LaunchSpecification]["UserData"]=userData
         spotfleetConfig['LaunchSpecifications'][LaunchSpecification]['BlockDeviceMappings'][1]['Ebs']["VolumeSize"]= EBS_VOL_SIZE
-        spotfleetConfig['LaunchSpecifications'][LaunchSpecification]['InstanceType'] = MACHINE_TYPE[LaunchSpecification]
+    """
 
+    ecsInstanceArn = iam.get_role(RoleName='ecsInstanceRole')['Role']['Arn']
+    fleetRoleArn = iam.get_role(RoleName='aws-ec2-spot-fleet-tagging-role')['Role']['Arn']
 
-    # Step 2: make the spot fleet request
-    ec2client=boto3.client('ec2')
-    requestInfo = ec2client.request_spot_fleet(SpotFleetRequestConfig=spotfleetConfig)
+    LaunchTemplateData={"ImageId": ImageId,
+        "KeyName": KeyName,
+        "IamInstanceProfile": {"Arn": ecsInstanceArn},
+        "BlockDeviceMappings": [
+        {
+                "DeviceName": "/dev/xvda",
+                "Ebs": {
+                "DeleteOnTermination": True,
+                "VolumeType": "gp2",
+                "VolumeSize": 8,
+                "SnapshotId": SnapshotId
+            }
+            },
+            {
+            "DeviceName": "/dev/xvdcz",
+            "Ebs": {
+                "DeleteOnTermination": True,
+                "VolumeType": "gp2"
+            }
+            }
+        ],
+        "NetworkInterfaces": [
+            {
+            "DeviceIndex": 0,
+            "SubnetId": SubnetId,
+            "DeleteOnTermination": True,
+            "AssociatePublicIpAddress": True,
+            "Groups": [SecurityGroup]
+            }
+        ]
+        }
+
+    TemplateName=f'{APP_NAME}_LaunchTemplate'
+    try:
+        launch_template = ec2client.describe_launch_templates(LaunchTemplateNames=[TemplateName])['LaunchTemplates'][0]
+    except ec2client.exceptions.ClientError:
+        launch_template = ec2client.create_launch_template(LaunchTemplateName=TemplateName,LaunchTemplateData=LaunchTemplateData)['LaunchTemplate']
+
+    SpotOptions = {"AllocationStrategy": "lowestPrice"}
+    LaunchTemplateConfigs=[{'LaunchTemplateSpecification':{'LaunchTemplateId':launch_template['LaunchTemplateId'],
+                                                        'Version':'$Latest'},
+                            'Overrides':[{'InstanceType':MACHINE_TYPE,
+                                            'MaxPrice':'%.2f' %MACHINE_PRICE,
+                                            'SubnetId':SubnetId}]}]
+    TargetCapacitySpecification={'TotalTargetCapacity':CLUSTER_MACHINES,
+                                    'OnDemandTargetCapacity':0,
+                                    'DefaultTargetCapacityType':'spot'}
+    
+    # Step 2: Make the spot fleet request
+    thistime = datetime.datetime.now().replace(microsecond=0)
+    requestInfo = ec2client.create_fleet(DryRun=False,
+                        SpotOptions=SpotOptions,
+                            LaunchTemplateConfigs=LaunchTemplateConfigs,
+                            TargetCapacitySpecification=TargetCapacitySpecification,
+                            TerminateInstancesWithExpiration=True,
+                            Type="maintain",
+                            ValidFrom=thistime,
+                            ValidUntil=(thistime+datetime.timedelta(days=365)).replace(microsecond=0),)
     print('Request in process. Wait until your machines are available in the cluster.')
     print('SpotFleetRequestId',requestInfo['SpotFleetRequestId'])
 
