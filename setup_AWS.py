@@ -41,15 +41,20 @@ def setup():
             ],
         }
     )
-    iam.create_role(
-        RoleName="ecsInstanceRole",
-        AssumeRolePolicyDocument=assume_role_policy_document,
-    )
-    for arn in ecsInstanceRole_policy_list:
-        iam.attach_role_policy(
-            PolicyArn=arn,
+    try:
+        iam.create_role(
             RoleName="ecsInstanceRole",
+            AssumeRolePolicyDocument=assume_role_policy_document,
         )
+        for arn in ecsInstanceRole_policy_list:
+            iam.attach_role_policy(
+                PolicyArn=arn,
+                RoleName="ecsInstanceRole",
+            )
+        print ('Created ecsInstanceRole.')
+    except iam.exceptions.EntityAlreadyExistsException:
+        print ('Skipping creation of ecsInstanceRole. Already exists.')
+
 
     # Create EC2 Spot Fleet Tagging Role
     assume_role_policy_document = json.dumps(
@@ -65,14 +70,18 @@ def setup():
             ],
         }
     )
-    iam.create_role(
-        RoleName="aws-ec2-spot-fleet-tagging-role",
-        AssumeRolePolicyDocument=assume_role_policy_document,
-    )
-    iam.attach_role_policy(
-        PolicyArn="arn:aws:iam::aws:policy/service-role/AmazonEC2SpotFleetTaggingRole",
-        RoleName="aws-ec2-spot-fleet-tagging-role",
-    )
+    try:
+        iam.create_role(
+            RoleName="aws-ec2-spot-fleet-tagging-role",
+            AssumeRolePolicyDocument=assume_role_policy_document,
+        )
+        iam.attach_role_policy(
+            PolicyArn="arn:aws:iam::aws:policy/service-role/AmazonEC2SpotFleetTaggingRole",
+            RoleName="aws-ec2-spot-fleet-tagging-role",
+        )
+        print ('Created aws-ec2-spot-fleet-tagging-role.')
+    except iam.exceptions.EntityAlreadyExistsException:
+        print ('Skipping creation of aws-ec2-spot-fleet-tagging-role. Already exists.')
 
     # Create Lambda Full Access Role
     assume_role_policy_document = json.dumps(
@@ -88,50 +97,55 @@ def setup():
             ],
         }
     )
-    iam.create_role(
-        RoleName="LambdaFullAccess",
-        AssumeRolePolicyDocument=assume_role_policy_document,
-    )
-    for arn in LambdaFullAccess_policy_list:
-        iam.attach_role_policy(
-            PolicyArn=arn,
+    try:
+        iam.create_role(
             RoleName="LambdaFullAccess",
+            AssumeRolePolicyDocument=assume_role_policy_document,
         )
-
+        for arn in LambdaFullAccess_policy_list:
+            iam.attach_role_policy(
+                PolicyArn=arn,
+                RoleName="LambdaFullAccess",
+            )
+        print ('Created LambdaFullAccess role.')
+    except iam.exceptions.EntityAlreadyExistsException:
+        print ('Skipping creation of LambdaFullAccess role. Already exists.')
+ 
     # Create SNS Monitor topic
     MonitorTopic = sns.create_topic(Name="Monitor")
+    print ('(Re-)Created Monitor SNS Topic.')
 
     # Create Monitor Lambda function
     LambdaFullAccess = iam.get_role(RoleName="LambdaFullAccess")
 
     fxn = open("lambda_function.zip", "rb").read()
-
-    MonitorFunction = lmbda.create_function(
-        FunctionName="Monitor",
-        Runtime="python3.9",
-        Role=LambdaFullAccess["Role"]["Arn"],
-        Handler="lambda_function.lambda_handler",
-        Code={
-            "ZipFile": fxn,
-        },
-        Description="Auto-monitor DS runs",
-        Timeout=900,
-        MemorySize=3008,
-        Publish=True,
-        PackageType="Zip",
-        TracingConfig={"Mode": "PassThrough"},
-        Architectures=["x86_64"],
-        EphemeralStorage={"Size": 512},
-        SnapStart={"ApplyOn": "None"},
-    )
-
-    # Subscribe Monitor Lambda to Monitor Topic
-    sns.subscribe(
-        TopicArn=MonitorTopic["TopicArn"],
-        Protocol="lambda",
-        Endpoint=MonitorFunction["FunctionArn"],
-    )
-
+    try:
+        MonitorFunction = lmbda.create_function(
+            FunctionName="Monitor",
+            Runtime="python3.9",
+            Role=LambdaFullAccess["Role"]["Arn"],
+            Handler="lambda_function.lambda_handler",
+            Code={
+                "ZipFile": fxn,
+            },
+            Description="Auto-monitor DS runs",
+            Timeout=900,
+            MemorySize=3008,
+            Publish=True,
+            PackageType="Zip",
+            TracingConfig={"Mode": "PassThrough"},
+            Architectures=["x86_64"],
+            EphemeralStorage={"Size": 512}
+        )
+        # Subscribe Monitor Lambda to Monitor Topic
+        sns.subscribe(
+            TopicArn=MonitorTopic["TopicArn"],
+            Protocol="lambda",
+            Endpoint=MonitorFunction["FunctionArn"],
+        )
+        print ('Created Monitor Lambda Function.')
+    except lmbda.exceptions.ResourceConflictException:
+        print ('Skipping creation of Monitor Lambda Function. Already exists.')
 
 def destroy():
     # Delete roles
