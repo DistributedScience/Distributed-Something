@@ -1,4 +1,7 @@
 # Using Distributed-Something
+The architecture of Distributed-Something is based in the [worker pattern](https://web.archive.org/web/20220116213859/https://aws.amazon.com/blogs/compute/better-together-amazon-ecs-and-aws-lambda/) for distributed systems.
+We have adapted and simplified that architecture for Distributed-Something.
+In short, Distributed-Something uses a control node to submit jobs to AWS and those jobs are run in parallel on EC2 instances that are automatically managed by ECS.
 
 ## What happens in AWS when I run Distributed-Something?
 

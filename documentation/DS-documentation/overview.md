@@ -6,8 +6,8 @@ Distributed-Something:
 * simplifies the process of distributing and running software in the cloud.
 * decreases the cost of cloud computing by optimizing resources used.
 * makes workflows reproducible.
-* is Python based which makes creating new implementations broadly accessible to intermediate computationalists.
-* only requires human-readable configuration to run an implementation which makes it broadly accessible to novice computationalists.
+* is Python based which makes creating new implementations broadly accessible to intermediate computationalist developers.
+* only requires human-readable configuration to run an implementation which makes it broadly accessible to novice computationalist users.
 
 You will need to customize Distributed-Something for your particular use case.
 See [Customizing Distributed-Something](customizing_DS.md) for customization details.
