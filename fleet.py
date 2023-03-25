@@ -1,0 +1,5 @@
+ImageId = "ami-fad25980"
+KeyName = "your_key_file_name"
+SnapshotId =  "snap-04007a196c0f3f398"
+SubnetId = "subnet-WWWWWWWW"
+SecurityGroup= "sg-ZZZZZZZZZ"
