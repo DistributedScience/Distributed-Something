@@ -564,22 +564,13 @@ def startCluster():
     iam=boto3.client('iam')
 
     ecsConfigFile=generateECSconfig(ECS_CLUSTER,APP_NAME,AWS_BUCKET,s3client)
-    spotfleetConfig=loadConfig(sys.argv[2])
-
-    # Still need to figure out how these fit in
-    """
     DOCKER_BASE_SIZE = int(round(float(EBS_VOL_SIZE)/int(TASKS_PER_MACHINE))) - 2
     userData=generateUserData(ecsConfigFile,DOCKER_BASE_SIZE)
-    for LaunchSpecification in range(0,len(spotfleetConfig['LaunchSpecifications'])):
-        spotfleetConfig['LaunchSpecifications'][LaunchSpecification]["UserData"]=userData
-        spotfleetConfig['LaunchSpecifications'][LaunchSpecification]['BlockDeviceMappings'][1]['Ebs']["VolumeSize"]= EBS_VOL_SIZE
-    """
 
-    ecsInstanceArn = iam.get_role(RoleName='ecsInstanceRole')['Role']['Arn']
+    ecsInstanceArn = iam.get_instance_profile(InstanceProfileName='ecsInstanceRole')['InstanceProfile']['Arn']
     fleetRoleArn = iam.get_role(RoleName='aws-ec2-spot-fleet-tagging-role')['Role']['Arn']
 
-    LaunchTemplateData={"ImageId": ImageId,
-        "KeyName": KeyName,
+    LaunchTemplateData={
         "IamInstanceProfile": {"Arn": ecsInstanceArn},
         "BlockDeviceMappings": [
         {
@@ -587,7 +578,7 @@ def startCluster():
                 "Ebs": {
                 "DeleteOnTermination": True,
                 "VolumeType": "gp2",
-                "VolumeSize": 8,
+                "VolumeSize": EBS_VOL_SIZE,
                 "SnapshotId": SnapshotId
             }
             },
@@ -607,19 +598,23 @@ def startCluster():
             "AssociatePublicIpAddress": True,
             "Groups": [SecurityGroup]
             }
-        ]
+        ],
+        "ImageId": ImageId,
+        "InstanceType": MACHINE_TYPE[0],
+        "KeyName": KeyName,
+        "UserData": userData
         }
 
     TemplateName=f'{APP_NAME}_LaunchTemplate'
     try:
-        launch_template = ec2client.describe_launch_templates(LaunchTemplateNames=[TemplateName])['LaunchTemplates'][0]
+        launch_template = ec2client.create_launch_template_version(LaunchTemplateName=TemplateName,LaunchTemplateData=LaunchTemplateData)['LaunchTemplateVersion']
     except ec2client.exceptions.ClientError:
         launch_template = ec2client.create_launch_template(LaunchTemplateName=TemplateName,LaunchTemplateData=LaunchTemplateData)['LaunchTemplate']
 
     SpotOptions = {"AllocationStrategy": "lowestPrice"}
     LaunchTemplateConfigs=[{'LaunchTemplateSpecification':{'LaunchTemplateId':launch_template['LaunchTemplateId'],
                                                         'Version':'$Latest'},
-                            'Overrides':[{'InstanceType':MACHINE_TYPE,
+                            'Overrides':[{
                                             'MaxPrice':'%.2f' %MACHINE_PRICE,
                                             'SubnetId':SubnetId}]}]
     TargetCapacitySpecification={'TotalTargetCapacity':CLUSTER_MACHINES,
@@ -628,7 +623,7 @@ def startCluster():
     
     # Step 2: Make the spot fleet request
     thistime = datetime.datetime.now().replace(microsecond=0)
-    requestInfo = ec2client.create_fleet(DryRun=False,
+    requestInfo = ec2client.create_fleet(
                         SpotOptions=SpotOptions,
                             LaunchTemplateConfigs=LaunchTemplateConfigs,
                             TargetCapacitySpecification=TargetCapacitySpecification,
