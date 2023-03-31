@@ -146,6 +146,14 @@ def setup():
         print ('Created Monitor Lambda Function.')
     except lmbda.exceptions.ResourceConflictException:
         print ('Skipping creation of Monitor Lambda Function. Already exists.')
+    try:
+        lmbda.add_permission(
+            FunctionName='Monitor',
+            StatementId='InvokeBySNS',
+            Action='lambda:InvokeFunction',
+            Principal='sns.amazonaws.com')
+    except lmbda.exceptions.ResourceConflictException:
+        print ('Monitor Lambda Function already has SNS invoke permission.')
 
 def destroy():
     # Delete roles
@@ -164,7 +172,7 @@ def destroy():
     iam.delete_role(RoleName="LambdaFullAccess")
 
     # Delete Monitor Lambda function
-    lmbda.delete_function(FunctionName="MonitorTEST")
+    lmbda.delete_function(FunctionName="Monitor")
 
     # Delete Monitor SNS topic
     # create_topic is idempotent so we use it to return ARN since topic already exists
