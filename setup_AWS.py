@@ -23,6 +23,7 @@ LambdaFullAccess_policy_list = [
     "arn:aws:iam::aws:policy/service-role/AmazonEC2SpotFleetTaggingRole",
     "arn:aws:iam::aws:policy/AmazonS3FullAccess",
     "arn:aws:iam::aws:policy/AmazonSQSFullAccess",
+    "arn:aws:iam::aws:policy/CloudWatchFullAccess"
 ]
 
 
