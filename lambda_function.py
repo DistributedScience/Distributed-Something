@@ -73,9 +73,7 @@ def lambda_handler(event, lambda_context):
     # Download monitor file
     monitor_file_name = f"{queueId.split('Queue')[0]}SpotFleetRequestId.json"
     monitor_local_name = f"/tmp/{monitor_file_name}"
-    monitor_on_bucket_name = (
-        f"/monitors/{monitor_file_name}"
-    )
+    monitor_on_bucket_name = (f"monitors/{monitor_file_name}")
 
     with open(monitor_local_name, "wb") as f:
         try:
