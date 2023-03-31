@@ -14,6 +14,7 @@ parts:
   - file: customizing_DS
   - file: implementing_DS
   - file: troubleshooting_implementation
+  - file: updating_DS
 - caption: Running an application made by Distributed-Something as an end user
   chapters:
   - file: step_0_prep

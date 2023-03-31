@@ -38,12 +38,7 @@ Implemented examples you can reference are:
 ## Using the Distributed-Something template
 
 Distributed-Something is a template repository.
-Read more about [Github template repositories](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template) and follow the instructions to create your own project repository from the template.
-We have chosen to provide DS as a template because it provides new implementations with a clean commit history.
-Because DS is so customizable, we expect that implementations will diverge from the template.
-Unlike forks, for which Github currently provides a "sync fork" function, templates do not have an automatic way of pulling changes from the template into repositories made from the template.
-If you anticipate wanting to keep your implementation more closely linked to the DS template, you can fork the template to create your own project repository instead and use the "sync fork" function as necessary.
-Or, use the six lines of [code described here](https://stackoverflow.com/questions/56577184/github-pull-changes-from-a-template-repository/69563752#69563752) to pull template changes into your repository.  
+Read more about [Github template repositories](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template) and follow the instructions to create your own project repository from the template. 
 
 ## Customization details
 
