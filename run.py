@@ -11,6 +11,7 @@ from email.mime.text import MIMEText
 
 CREATE_DASHBOARD = 'False'
 CLEAN_DASHBOARD = 'False'
+AUTO_MONITOR = 'False'
 
 from config import *
 
@@ -591,7 +592,15 @@ def startCluster():
     createMonitor.write('"MONITOR_BUCKET_NAME" : "'+AWS_BUCKET+'",\n')
     createMonitor.write('"MONITOR_LOG_GROUP_NAME" : "'+LOG_GROUP_NAME+'",\n')
     createMonitor.write('"MONITOR_START_TIME" : "'+ starttime+'"}\n')
+    createMonitor.write('"CLEAN_DASHBOARD" : "'+ CLEAN_DASHBOARD+'"}\n')
     createMonitor.close()
+
+    # Upload monitor file to S3 so it can be read by Auto-Monitor lambda function
+    if AUTO_MONITOR.lower()=='true':
+        s3 = boto3.client("s3")
+        json_on_bucket_name = f'monitors/{APP_NAME}SpotFleetRequestId.json' # match path set in lambda function
+        with open(monitor_file_name, "rb") as a:
+            s3.put_object(Body=a, Bucket=AWS_BUCKET, Key=json_on_bucket_name)
 
     # Step 4: Create a log group for this app and date if one does not already exist
     logclient=boto3.client('logs')
@@ -641,6 +650,36 @@ def startCluster():
     if CREATE_DASHBOARD.lower()=='true':
         print ("Creating CloudWatch dashboard for run metrics")
         create_dashboard(requestInfo)
+
+    if AUTO_MONITOR.lower()=='true':
+        # Create alarms that will trigger Monitor based on SQS queue metrics
+        cloudwatch = boto3.client("cloudwatch")
+        metricnames = [
+            "ApproximateNumberOfMessagesNotVisible",
+            "ApproximateNumberOfMessagesVisible",
+        ]
+        sns = boto3.client("sns")
+        MonitorARN = sns.create_topic(Name="Monitor")['TopicArn'] # returns ARN since topic already exists
+        for metric in metricnames:
+            response = cloudwatch.put_metric_alarm(
+                AlarmName=f'{metric}isZero_{APP_NAME}',
+                ActionsEnabled=True,
+                OKActions=[],
+                AlarmActions=[MonitorARN],
+                InsufficientDataActions=[],
+                MetricName=metric,
+                Namespace="AWS/SQS",
+                Statistic="Average",
+                Dimensions=[
+                    {"Name": "QueueName", "Value": f'{APP_NAME}Queue'}
+                ],
+                Period=300,
+                EvaluationPeriods=1,
+                DatapointsToAlarm=1,
+                Threshold=0,
+                ComparisonOperator="LessThanOrEqualToThreshold",
+                TreatMissingData="missing",
+            )
 
 #################################
 # SERVICE 4: MONITOR JOB

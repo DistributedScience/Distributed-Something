@@ -64,6 +64,11 @@ This queue will be automatically made if it doesn't exist already.
 
 ***
 
+### MONITORING
+* **AUTO_MONITOR:** Whether or not to have Auto-Monitor automatically monitor your jobs.
+
+***
+
 ### CLOUDWATCH DASHBOARD CREATION
 
 * **CREATE_DASHBOARD:** Should DS create a Cloudwatch Dashboard that plots run metrics?
