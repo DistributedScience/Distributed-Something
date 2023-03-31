@@ -73,7 +73,7 @@ def lambda_handler(event, lambda_context):
     # Download monitor file
     monitor_file_name = f"{queueId.split('Queue')[0]}SpotFleetRequestId.json"
     monitor_local_name = f"/tmp/{monitor_file_name}"
-    monitor_on_bucket_name = (f"monitors/{monitor_file_name}")
+    monitor_on_bucket_name = f"monitors/{monitor_file_name}"
 
     with open(monitor_local_name, "wb") as f:
         try:
@@ -102,7 +102,9 @@ def lambda_handler(event, lambda_context):
     if "ApproximateNumberOfMessagesNotVisible" in event["Records"][0]["Sns"]["Message"]:
         print("No messages in progress. Cleaning up.")
         ecs.update_service(
-            cluster=monitorcluster, service=f"{monitorapp}Service", desiredCount=0,
+            cluster=monitorcluster,
+            service=f"{monitorapp}Service",
+            desiredCount=0,
         )
         print("Service has been downscaled")
 
@@ -176,8 +178,10 @@ def lambda_handler(event, lambda_context):
         )
 
         # Remove Cloudwatch dashboard if created and cleanup desired
-        if CLEAN_DASHBOARD.lower()=='true':
+        if CLEAN_DASHBOARD.lower() == "true":
             dashboard_list = cloudwatch.list_dashboards()
             for entry in dashboard_list["DashboardEntries"]:
                 if monitorapp in entry["DashboardName"]:
-                    cloudwatch.delete_dashboards(DashboardNames=[entry["DashboardName"]])
+                    cloudwatch.delete_dashboards(
+                        DashboardNames=[entry["DashboardName"]]
+                    )
