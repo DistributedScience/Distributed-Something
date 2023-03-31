@@ -19,12 +19,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
-<link href="_static/styles/bootstrap.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
 
   
-  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=12da95d707ffb74b382d" rel="stylesheet" />
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
@@ -38,8 +38,8 @@
     <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d" />
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
@@ -169,6 +169,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="customizing_DS.html">Customizing DS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="implementing_DS.html">Implementing DS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="troubleshooting_implementation.html">Troubleshooting Your DS Implementation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="updating_DS.html">Updating Your Distributed-Something Implementation</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Running an application made by Distributed-Something as an end user</span></p>
 <ul class="nav bd-sidenav">
@@ -400,8 +401,9 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-happens-in-aws-when-i-run-distributed-something">What happens in AWS when I run Distributed-Something?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-does-this-look-like">What does this look like?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-does-an-instance-configuration-look-like">What does an instance configuration look like?</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-do-i-determine-my-configuration">How do I determine my configuration?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-does-this-look-like-on-aws">What does this look like on AWS?</a></li>
 </ul>
             </nav>
         </div>
@@ -415,6 +417,9 @@ document.write(`
                   
   <section id="using-distributed-something">
 <h1>Using Distributed-Something<a class="headerlink" href="#using-distributed-something" title="Permalink to this heading">#</a></h1>
+<p>The architecture of Distributed-Something is based in the <a class="reference external" href="https://web.archive.org/web/20220116213859/https://aws.amazon.com/blogs/compute/better-together-amazon-ecs-and-aws-lambda/">worker pattern</a> for distributed systems.
+We have adapted and simplified that architecture for Distributed-Something.
+In short, Distributed-Something uses a control node to submit jobs to AWS and those jobs are run in parallel on EC2 instances that are automatically managed by ECS.</p>
 <section id="what-happens-in-aws-when-i-run-distributed-something">
 <h2>What happens in AWS when I run Distributed-Something?<a class="headerlink" href="#what-happens-in-aws-when-i-run-distributed-something" title="Permalink to this heading">#</a></h2>
 <p>The steps for actually running the Distributed-Something code are outlined in the repository <a class="reference external" href="https://github.com/DistributedScience/Distributed-Something/blob/master/README.md">README</a>, and details of the parameters you set in each step are on their respective Documentation pages (<a class="reference internal" href="step_1_configuration.html"><span class="doc std std-doc">Step 1: Config</span></a>, <a class="reference internal" href="step_2_submit_jobs.html"><span class="doc std std-doc">Step 2: Jobs</span></a>, <a class="reference internal" href="step_3_start_cluster.html"><span class="doc std std-doc">Step 3: Fleet</span></a>, and optional <a class="reference internal" href="step_4_monitor.html"><span class="doc std std-doc">Step 4: Monitor</span></a>).
@@ -455,8 +460,8 @@ If SQS tells them there are no visible jobs then they shut themselves down.</p><
 <p><strong>Optional Step 4 (E)</strong>:
 If you choose to run <code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">run.py</span> <span class="pre">monitor</span></code> it will automatically scale down your hardware (e.g. intelligently scale down your spot fleet request) during a run and clean up all of the infrastructure you created for the run at the end of the run.</p>
 </section>
-<section id="what-does-this-look-like">
-<h2>What does this look like?<a class="headerlink" href="#what-does-this-look-like" title="Permalink to this heading">#</a></h2>
+<section id="what-does-an-instance-configuration-look-like">
+<h2>What does an instance configuration look like?<a class="headerlink" href="#what-does-an-instance-configuration-look-like" title="Permalink to this heading">#</a></h2>
 <p><img alt="Example Instance Configuration" src="_images/sample_DCP_config_1.png" /></p>
 <p>This is an example of one possible instance configuration using <a class="reference external" href="http://github.com/cellprofiler/distributed-cellprofiler">Distributed-CellProfiler</a> as an example.
 This is one m4.16xlarge EC2 instance (64 CPUs, 250GB of RAM) with a 165 EBS volume mounted on it. A spot fleet could contain many such instances.
@@ -478,6 +483,19 @@ How long a job takes to run and how quickly you need the data may also affect ho
 However, you’re also at a greater risk of running out of hard disk space.</p></li>
 </ul>
 <p>Keep an eye on all of the logs the first few times you run any workflow and you’ll get a sense of whether your resources are being utilized well or if you need to do more tweaking of your configuration.</p>
+</section>
+<section id="what-does-this-look-like-on-aws">
+<h2>What does this look like on AWS?<a class="headerlink" href="#what-does-this-look-like-on-aws" title="Permalink to this heading">#</a></h2>
+<p>The following five are the primary resources that Distributed-Something interacts with.
+After you have finished <a class="reference internal" href="step_0_prep.html"><span class="doc std std-doc">preparing for Distributed-Something</span></a>, you do not need to directly interact with any of these services outside of Distributed-Something.
+If you would like a granular view of what Distributed-Something is doing while it runs, you can open each console in a separate tab in your browser and watch their individual behaviors, though this is not necessary, especially if you run the <a class="reference internal" href="step_4_monitor.html"><span class="doc std std-doc">monitor command</span></a> and/or have DS automatically create a Dashboard for you (see <a class="reference internal" href="step_1_configuration.html"><span class="doc std std-doc">Configuration</span></a>).</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://console.aws.amazon.com/s3">S3 Console</a></p></li>
+<li><p><a class="reference external" href="https://console.aws.amazon.com/ec2/">EC2 Console</a></p></li>
+<li><p><a class="reference external" href="https://console.aws.amazon.com/ecs/">ECS Console</a></p></li>
+<li><p><a class="reference external" href="https://console.aws.amazon.com/sqs/">SQS Console</a></p></li>
+<li><p><a class="reference external" href="https://console.aws.amazon.com/cloudwatch/">CloudWatch Console</a></p></li>
+</ul>
 </section>
 </section>
 
@@ -507,7 +525,10 @@ However, you’re also at a greater risk of running out of hard disk space.</p><
               
               
                 <footer class="bd-footer-article">
-                  <!-- Previous / next buttons -->
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="overview.html"
@@ -527,7 +548,10 @@ However, you’re also at a greater risk of running out of hard disk space.</p><
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
+</div></div>
+  
 </div>
+
                 </footer>
               
             </div>
@@ -543,8 +567,9 @@ However, you’re also at a greater risk of running out of hard disk space.</p><
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-happens-in-aws-when-i-run-distributed-something">What happens in AWS when I run Distributed-Something?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-does-this-look-like">What does this look like?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-does-an-instance-configuration-look-like">What does an instance configuration look like?</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-do-i-determine-my-configuration">How do I determine my configuration?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-does-this-look-like-on-aws">What does this look like on AWS?</a></li>
 </ul>
   </nav></div>
 
@@ -553,7 +578,7 @@ However, you’re also at a greater risk of running out of hard disk space.</p><
             
           </div>
           <footer class="bd-footer-content">
-            <div class="bd-footer-content__inner">
+            
 <div class="bd-footer-content__inner container">
   
   <div class="footer-item">
@@ -583,7 +608,7 @@ By Broad Institute
     
   </div>
   
-</div></div>
+</div>
           </footer>
         
 
@@ -592,8 +617,8 @@ By Broad Institute
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/bootstrap.js?digest=12da95d707ffb74b382d"></script>
-<script src="_static/scripts/pydata-sphinx-theme.js?digest=12da95d707ffb74b382d"></script>
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
 
   <footer class="bd-footer">
   </footer>
