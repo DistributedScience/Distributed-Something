@@ -1,0 +1,32 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Cimini"
+  given-names: "Beth A."
+  orcid: "https://orcid.org/0000-0001-9640-9318"
+- family-names: "Weisbart"
+  given-names: "Erin"
+  orcid: "https://orcid.org/0000-0002-6437-2458"
+title: "Distributed-Something"
+version: 1.0
+doi: 10.1038/s41592-023-01918-8
+date-released: 2023-06-05
+url: "https://github.com/DistributedScience/Distributed-Something"
+preferred-citation:
+  type: article
+  authors:
+  - family-names: "Cimini"
+    given-names: "Beth A."
+    orcid: "https://orcid.org/0000-0001-9640-9318"
+  - family-names: "Weisbart"
+    given-names: "Erin"
+    orcid: "https://orcid.org/0000-0002-6437-2458"
+  doi: "10.1038/s41592-023-01918-8"
+  journal: "Nature Methods"
+  month: 6
+  start: 0 # First page number
+  end: 0 # Last page number
+  title: "Distributed-Something: scripts to leverage AWS storage and computing for distributed workflows at scale"
+  issue: 0
+  volume: 0
+  year: 2023
