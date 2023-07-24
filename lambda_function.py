@@ -12,7 +12,7 @@ sqs = boto3.client("sqs")
 bucket = "BUCKET_NAME"
 
 
-def killdeadAlarms(fleetId, monitorapp, project):
+def killdeadAlarms(fleetId, project):
     checkdates = [
         datetime.datetime.now().strftime("%Y-%m-%d"),
         (datetime.datetime.now() - datetime.timedelta(days=1)).strftime("%Y-%m-%d"),
@@ -27,7 +27,12 @@ def killdeadAlarms(fleetId, monitorapp, project):
                 if eachevent["EventInformation"]["EventSubType"] == "terminated":
                     todel.append(eachevent["EventInformation"]["InstanceId"])
     todel = [f"{project}_{x}" for x in todel]
-    cloudwatch.delete_alarms(AlarmNames=todel)
+    while len(todel) > 100:
+        dellist = todel[:100]
+        cloudwatch.delete_alarms(AlarmNames=dellist)
+        todel = todel[100:]
+    if len(todel) <= 100:
+        cloudwatch.delete_alarms(AlarmNames=todel)
     print("Old alarms deleted")
 
 
@@ -41,8 +46,18 @@ def seeIfLogExportIsDone(logExportId):
                 time.sleep(30)
 
 
-def downscaleSpotFleet(queue, spotFleetID):
-    response = sqs.get_queue_url(QueueName=queue)
+def downscaleSpotFleet(nonvisible, spotFleetID):
+    status = ec2.describe_spot_fleet_instances(SpotFleetRequestId=spotFleetID)
+    if nonvisible < len(status["ActiveInstances"]):
+        ec2.modify_spot_fleet_request(
+            ExcessCapacityTerminationPolicy="noTermination",
+            TargetCapacity=str(nonvisible),
+            SpotFleetRequestId=spotFleetID,
+        )
+
+
+def check_sqs_queue(queueName):
+    response = sqs.get_queue_url(QueueName=queueName)
     queueUrl = response["QueueUrl"]
     response = sqs.get_queue_attributes(
         QueueUrl=queueUrl,
@@ -53,13 +68,10 @@ def downscaleSpotFleet(queue, spotFleetID):
     )
     visible = int(response["Attributes"]["ApproximateNumberOfMessages"])
     nonvisible = int(response["Attributes"]["ApproximateNumberOfMessagesNotVisible"])
-    status = ec2.describe_spot_fleet_instances(SpotFleetRequestId=spotFleetID)
-    if nonvisible < len(status["ActiveInstances"]):
-        result = ec2.modify_spot_fleet_request(
-            ExcessCapacityTerminationPolicy="noTermination",
-            TargetCapacity=str(nonvisible),
-            SpotFleetRequestId=spotFleetID,
-        )
+    print(
+        f"Found {visible} visible messages and {nonvisible} nonvisible messages in queue."
+    )
+    return visible, nonvisible
 
 
 def lambda_handler(event, lambda_context):
@@ -67,11 +79,11 @@ def lambda_handler(event, lambda_context):
     # OR ApproximateNumberOfMessagesNotVisible = 0
     messagestring = event["Records"][0]["Sns"]["Message"]
     messagedict = json.loads(messagestring)
-    queueId = messagedict["Trigger"]["Dimensions"][0]["value"]
-    project = queueId.rsplit("_", 1)[0]
+    queueName = messagedict["Trigger"]["Dimensions"][0]["value"]
+    project = queueName.rsplit("_", 1)[0]
 
     # Download monitor file
-    monitor_file_name = f"{queueId.split('Queue')[0]}SpotFleetRequestId.json"
+    monitor_file_name = f"{queueName.split('Queue')[0]}SpotFleetRequestId.json"
     monitor_local_name = f"/tmp/{monitor_file_name}"
     monitor_on_bucket_name = f"monitors/{monitor_file_name}"
 
@@ -88,18 +100,19 @@ def lambda_handler(event, lambda_context):
     monitorapp = monitorInfo["MONITOR_APP_NAME"]
     fleetId = monitorInfo["MONITOR_FLEET_ID"]
     loggroupId = monitorInfo["MONITOR_LOG_GROUP_NAME"]
-    starttime = monitorInfo["MONITOR_START_TIME"]
     CLEAN_DASHBOARD = monitorInfo["CLEAN_DASHBOARD"]
     print(f"Monitor triggered for {monitorcluster} {monitorapp} {fleetId} {loggroupId}")
 
+    visible, nonvisible = check_sqs_queue(queueName)
+
     # If no visible messages, downscale machines
-    if "ApproximateNumberOfMessagesVisible" in event["Records"][0]["Sns"]["Message"]:
+    if visible == 0 and nonvisible > 0:
         print("No visible messages. Tidying as we go.")
-        killdeadAlarms(fleetId, monitorapp, project)
-        downscaleSpotFleet(queueId, fleetId)
+        killdeadAlarms(fleetId, project)
+        downscaleSpotFleet(nonvisible, fleetId)
 
     # If no messages in progress, cleanup
-    if "ApproximateNumberOfMessagesNotVisible" in event["Records"][0]["Sns"]["Message"]:
+    if visible == 0 and nonvisible == 0:
         print("No messages in progress. Cleaning up.")
         ecs.update_service(
             cluster=monitorcluster,
@@ -115,7 +128,12 @@ def lambda_handler(event, lambda_context):
         active_instances = []
         for instance in active_dictionary["ActiveInstances"]:
             active_instances.append(instance["InstanceId"])
-        cloudwatch.delete_alarms(AlarmNames=active_instances)
+        while len(active_instances) > 100:
+            dellist = active_instances[:100]
+            cloudwatch.delete_alarms(AlarmNames=dellist)
+            active_instances = active_instances[100:]
+        if len(active_instances) <= 100:
+            cloudwatch.delete_alarms(AlarmNames=active_instances)
         killdeadAlarms(fleetId, monitorapp, project)
 
         # Read spot fleet id and terminate all EC2 instances
@@ -129,7 +147,7 @@ def lambda_handler(event, lambda_context):
         ECS_SERVICE_NAME = monitorapp + "Service"
 
         print("Deleting existing queue.")
-        queueoutput = sqs.list_queues(QueueNamePrefix=queueId)
+        queueoutput = sqs.list_queues(QueueNamePrefix=queueName)
         try:
             if len(queueoutput["QueueUrls"]) == 1:
                 queueUrl = queueoutput["QueueUrls"][0]
@@ -148,7 +166,7 @@ def lambda_handler(event, lambda_context):
             print("Couldn't delete service.")
 
         print("De-registering task")
-        taskArns = ecs.list_task_definitions()
+        taskArns = ecs.list_task_definitions(familyPrefix=ECS_TASK_NAME)
         for eachtask in taskArns["taskDefinitionArns"]:
             fulltaskname = eachtask.split("/")[-1]
             ecs.deregister_task_definition(taskDefinition=fulltaskname)
@@ -185,3 +203,6 @@ def lambda_handler(event, lambda_context):
                     cloudwatch.delete_dashboards(
                         DashboardNames=[entry["DashboardName"]]
                     )
+
+        # Delete monitor file
+        s3.delete_object(Bucket=bucket, Key=monitor_on_bucket_name)
