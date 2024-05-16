@@ -41,7 +41,7 @@ Implemented examples you can reference are:
 Distributed-Something is a template repository.
 Read more about [Github template repositories](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template) and follow the instructions to create your own project repository from the template.
 
-## Customization details
+## Required customization details
 
 There are many points at which you will need to customize Distributed-Something for your own implementation; These customization points are summarized below.
 Files that do not require any customization are not listed.
@@ -115,3 +115,24 @@ More configuration information is available in [Step 1: Configuration](step_1_co
 
 You need to customize the Dashboard creation function by changing 'start run' to whatever your run command is.
 If you have changed anything in config.py, you will need to edit the section on Task Definitions to match.
+
+## Optional customization details
+
+### Adding an additional script
+
+If you want to add an additional script that you will trigger from within your `worker.py` file, you need to do the following.
+See [Distributed-OMEZarrCreator](https://github.com/DistributedScience/Distributed-OMEZarrCreator) for an example of this in action with `add_downsampling.py`.
+
+- Add the file into your `worker` folder.
+- In `Dockerfile`, add `COPY your_script_name.py .` after line 56 (where similar copy commands are performed for the other scripts).
+- In `Dockerfile`, install any additional dependencies required by the new script.
+Follow the format of other install commands (e.g. `RUN python3.8 -m pip install`, `RUN apt install -y`)
+- Call the script from within your `worker.py` script using a similar format as your main call. e.g.
+
+```python
+cmd = (f"python3 your_script_name.py input_to_script --flag-for-script")
+printandlog(f"Running your_script_name", logger)
+logger.info(cmd)
+subp = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+monitorAndLog(subp, logger)
+```

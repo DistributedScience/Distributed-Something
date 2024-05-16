@@ -414,7 +414,7 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#customization-overview">Customization overview</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-the-distributed-something-template">Using the Distributed-Something template</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#customization-details">Customization details</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#required-customization-details">Required customization details</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#files">files/</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#examplefleet-json">exampleFleet.json</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#examplejob-json">exampleJob.json</a></li>
@@ -432,6 +432,10 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#run-py">run.py</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#optional-customization-details">Optional customization details</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-an-additional-script">Adding an additional script</a></li>
 </ul>
 </li>
 </ul>
@@ -485,8 +489,8 @@ Implemented examples you can reference are:</p></li>
 <p>Distributed-Something is a template repository.
 Read more about <a class="reference external" href="https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template">Github template repositories</a> and follow the instructions to create your own project repository from the template.</p>
 </section>
-<section id="customization-details">
-<h2>Customization details<a class="headerlink" href="#customization-details" title="Permalink to this heading">#</a></h2>
+<section id="required-customization-details">
+<h2>Required customization details<a class="headerlink" href="#required-customization-details" title="Permalink to this heading">#</a></h2>
 <p>There are many points at which you will need to customize Distributed-Something for your own implementation; These customization points are summarized below.
 Files that do not require any customization are not listed.</p>
 <section id="files">
@@ -560,6 +564,28 @@ If you have changed anything in config.py, you will need to edit the section on 
 </section>
 </section>
 </section>
+<section id="optional-customization-details">
+<h2>Optional customization details<a class="headerlink" href="#optional-customization-details" title="Permalink to this heading">#</a></h2>
+<section id="adding-an-additional-script">
+<h3>Adding an additional script<a class="headerlink" href="#adding-an-additional-script" title="Permalink to this heading">#</a></h3>
+<p>If you want to add an additional script that you will trigger from within your <code class="docutils literal notranslate"><span class="pre">worker.py</span></code> file, you need to do the following.
+See <a class="reference external" href="https://github.com/DistributedScience/Distributed-OMEZarrCreator">Distributed-OMEZarrCreator</a> for an example of this in action with <code class="docutils literal notranslate"><span class="pre">add_downsampling.py</span></code>.</p>
+<ul class="simple">
+<li><p>Add the file into your <code class="docutils literal notranslate"><span class="pre">worker</span></code> folder.</p></li>
+<li><p>In <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code>, add <code class="docutils literal notranslate"><span class="pre">COPY</span> <span class="pre">your_script_name.py</span> <span class="pre">.</span></code> after line 56 (where similar copy commands are performed for the other scripts).</p></li>
+<li><p>In <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code>, install any additional dependencies required by the new script.
+Follow the format of other install commands (e.g. <code class="docutils literal notranslate"><span class="pre">RUN</span> <span class="pre">python3.8</span> <span class="pre">-m</span> <span class="pre">pip</span> <span class="pre">install</span></code>, <code class="docutils literal notranslate"><span class="pre">RUN</span> <span class="pre">apt</span> <span class="pre">install</span> <span class="pre">-y</span></code>)</p></li>
+<li><p>Call the script from within your <code class="docutils literal notranslate"><span class="pre">worker.py</span></code> script using a similar format as your main call. e.g.</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cmd</span> <span class="o">=</span> <span class="p">(</span><span class="sa">f</span><span class="s2">&quot;python3 your_script_name.py input_to_script --flag-for-script&quot;</span><span class="p">)</span>
+<span class="n">printandlog</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Running your_script_name&quot;</span><span class="p">,</span> <span class="n">logger</span><span class="p">)</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+<span class="n">subp</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">Popen</span><span class="p">(</span><span class="n">cmd</span><span class="o">.</span><span class="n">split</span><span class="p">(),</span> <span class="n">stdout</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">STDOUT</span><span class="p">)</span>
+<span class="n">monitorAndLog</span><span class="p">(</span><span class="n">subp</span><span class="p">,</span> <span class="n">logger</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -627,7 +653,7 @@ If you have changed anything in config.py, you will need to edit the section on 
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#customization-overview">Customization overview</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-the-distributed-something-template">Using the Distributed-Something template</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#customization-details">Customization details</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#required-customization-details">Required customization details</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#files">files/</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#examplefleet-json">exampleFleet.json</a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#examplejob-json">exampleJob.json</a></li>
@@ -645,6 +671,10 @@ If you have changed anything in config.py, you will need to edit the section on 
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#run-py">run.py</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#optional-customization-details">Optional customization details</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-an-additional-script">Adding an additional script</a></li>
 </ul>
 </li>
 </ul>
