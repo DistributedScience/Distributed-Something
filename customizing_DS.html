@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="en" data-content_root="" >
 
   <head>
     <meta charset="utf-8" />
@@ -19,12 +19,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
 
   
-  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
@@ -38,8 +38,9 @@
     <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
@@ -78,6 +79,15 @@ const thebe_selector_output = ".output, .cell_output"
   
   
   <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
   
   <input type="checkbox"
           class="sidebar-toggle"
@@ -131,9 +141,11 @@ const thebe_selector_output = ".output, .cell_output"
   
     <div class="sidebar-primary-items__start sidebar-primary__section">
         <div class="sidebar-primary-item">
+
   
 
 <a class="navbar-brand logo" href="introduction.html">
+  
   
   
   
@@ -143,8 +155,8 @@ const thebe_selector_output = ".output, .cell_output"
       
     
     
-    <img src="_static/Distributed_Something_Logo_only.png" class="logo__image only-light" alt="Logo image"/>
-    <script>document.write(`<img src="_static/Distributed_Something_Logo_only.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+    <img src="_static/Distributed_Something_Logo_only.png" class="logo__image only-light" alt="DS Documentation - Home"/>
+    <script>document.write(`<img src="_static/Distributed_Something_Logo_only.png" class="logo__image only-dark" alt="DS Documentation - Home"/>`);</script>
   
   
 </a></div>
@@ -185,11 +197,9 @@ const thebe_selector_output = ".output, .cell_output"
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Technical guides</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="dashboard.html">AWS Cloudwatch Dashboard</a></li>
-
 <li class="toctree-l1"><a class="reference internal" href="troubleshooting_runs.html">Troubleshooting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hygiene.html">AWS Hygiene Scripts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="versions.html">Versions</a></li>
-
 </ul>
 
     </div>
@@ -360,20 +370,22 @@ const thebe_selector_output = ".output, .cell_output"
 </button>
 
 
+
 <script>
 document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script>
 
+
 <script>
 document.write(`
   <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
   </button>
 `);
 </script>
@@ -442,16 +454,15 @@ We have also created a minimal, fully functional example at <a class="reference 
 <section id="customization-overview">
 <h2>Customization overview<a class="headerlink" href="#customization-overview" title="Permalink to this heading">#</a></h2>
 <p>Before starting to customize Distributed-Something code, do some research on your desired implementation.</p>
-<ol class="arabic simple">
+<ol class="arabic">
 <li><p><strong>Ask how splittable is the function you want to distribute?</strong>
 Distributed-Something only works on “perfectly parallel” tasks, or tasks that do not communicate with each other while running.
-If the end product you envision cannot easily be split into perfectly parallel tasks, then it may not be a good fit for Distributed-Something.</p></li>
-</ol>
+If the end product you envision cannot easily be split into perfectly parallel tasks, then it may not be a good fit for Distributed-Something.</p>
 <p>Scale has a large impact on how splittable your function is.
 For example, if you want to stitch together a set of images into one larger image, that set that you are stitching is the smallest unit you can make your job. Because jobs must be “perfectly parallel”, you cannot distribute the images any further.
 If you’re generally working with datasets that only require a few stitching jobs, Distributed-Something may not be a good fit for your general use case.
 However, if you often work with very large datasets where you need to stitch many sets of images, even though you cannot further parallelize your jobs, distributing stitching tasks with Distributed-Something may still provide a significant savings in time and compute cost.</p>
-<ol class="arabic simple" start="2">
+</li>
 <li><p><strong>Make or find a Docker of the software you want to distribute.</strong>
 You can find over 1000 scientific softwares already Dockerized at <a class="reference external" href="http://biocontainers.pro">Biocontainers</a> and many open-source softwares provide Docker files within their GitHub repositories.
 See <a class="reference internal" href="implementing_DS.html"><span class="doc std std-doc">Implementing Distributed-Something</span></a> for more details.</p></li>
@@ -576,11 +587,10 @@ If you have changed anything in config.py, you will need to edit the section on 
 
               
               
-                <footer class="bd-footer-article">
+              
+              
+                <footer class="prev-next-footer">
                   
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="costs.html"
@@ -600,10 +610,7 @@ If you have changed anything in config.py, you will need to edit the section on 
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
@@ -661,6 +668,7 @@ By Broad Institute
   
   <div class="footer-item">
     
+
   <p class="copyright">
     
       © Copyright 2022.
@@ -687,8 +695,8 @@ By Broad Institute
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script src="_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
 
   <footer class="bd-footer">
   </footer>

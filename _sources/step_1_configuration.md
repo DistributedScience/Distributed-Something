@@ -1,4 +1,3 @@
-(use)=
 # Step 1: Configuration
 
 The first step in setting up any job is editing the values in the config.py file.
@@ -18,6 +17,7 @@ It need not be unique, but it should be descriptive enough that you can tell job
 ***
 
 ### AWS GENERAL SETTINGS
+
 These are settings that will allow your instances to be configured correctly and access the resources they need- see [Step 0: Prep](step_0_prep.md) for more information.
 
 ***
@@ -40,6 +40,7 @@ If you have multiple Dockers running per machine, each Docker will have access t
 ***
 
 ### DOCKER INSTANCE RUNNING ENVIRONMENT
+
 * **DOCKER_CORES:** How many copies of your script to run in each Docker container.
 * **CPU_SHARES:** How many CPUs each Docker container may have.
 * **MEMORY:** How much memory each Docker container may have.
@@ -65,6 +66,7 @@ This queue will be automatically made if it doesn't exist already.
 ***
 
 ### MONITORING
+
 * **AUTO_MONITOR:** Whether or not to have Auto-Monitor automatically monitor your jobs.
 
 ***
@@ -92,4 +94,5 @@ Useful when trying to detect jobs that may have exported smaller corrupted files
 ***
 
 ### YOUR CONFIGURATIONS
+
 * **VARIABLE:** Add in any additional system variables specific to your program.

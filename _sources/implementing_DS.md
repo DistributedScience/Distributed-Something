@@ -32,6 +32,7 @@ We recommend using CloudWatch Agent on an AWS instance.
 (Standard CloudWatch metrics do not report granular memory usage.)
 
 To test necessary parameters:
+
 - Create a EC2 instance using an AMI with S3FS already installed.
 - Add an IAM role. This machine must have an instance role with sufficient permissions attached in order to transmit metrics.
 - Connect to your EC2 instance.
@@ -49,6 +50,7 @@ sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -m ec2 -a 
 </pre>
 
 View your collected memory metrics in CloudWatch:
+
 - CloudWatch => Metrics => All Metrics
 - Custom Namespaces => CWAgent => ImageId, InstanceId, InstanceType => YOUR_INSTANCE mem_used_percent
 - Graphed metrics => PERIOD = 1 Minute (or whatever you have set in your CloudWatch config)

@@ -18,7 +18,9 @@ Once the spot fleet is ready:
 Your job will begin shortly!
 
 ***
+
 ## Configuring your spot fleet request
+
 Definition of many of these terms and explanations of many of the individual configuration parameters of spot fleets are covered in AWS documentation [here](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-fleet.html) and [here](http://docs.aws.amazon.com/cli/latest/reference/ec2/request-spot-fleet.html).
 You may also configure your spot fleet request through Amazon's web interface and simply download the JSON file at the "review" page to generate the configuration file you want, though we do not recommend this as Distributed-Something assumes a certain fleet request structure and has only been tested on certain Amazon AMI's.
 Looking at the output of this automatically generated spot fleet request can be useful though for obtaining values like your VPC's subnet and security groups, as well the ARN ID's of your roles.
@@ -35,7 +37,7 @@ We use the Amazon ECS-Optimized Amazon Linux AMI; but the Linux 2 AMI also seems
 If there is no template fleet file for your region, or the one here is too out-of-date, see below for instructions on configuring these options yourselves.
 If you have a good working configuration for a region that isn't represented or for a more up-to-date version of the AMI than we've had time to test, please feel free to create a pull request and we'll include it in the repo!
 
-## To run in a region where a spot fleet config isn't available or is out of date:
+## To run in a region where a spot fleet config isn't available or is out of date
 
 * Under EC2 -> Instances select "Launch Instance"
 
