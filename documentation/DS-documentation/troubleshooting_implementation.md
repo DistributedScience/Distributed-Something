@@ -1,18 +1,21 @@
 # Troubleshooting Your DS Implementation
 
 ## Check the Logs
+
 Logs are automatically created in CloudWatch as a part of Distributed-Something.
 If you need to troubleshoot your Distributed-Something implementation, it is likely that your error will be logged in CloudWatch.
 `LOG_GROUP_NAME_perInstance` logs contain a log for every EC2 instance that is launched as a part of your Spot Fleet request and should be the first place that you look.
 If your instances are successfully able to pull messages from the SQS queue, they will create a log for each job which can be easier to parse than the full `_perInstance` logs.
 
 ## AWS Credential Handling
+
 Improper credential handling can be a blocking point in accessing many AWS services as all permissions must be explicitly granted in AWS and best practices are to set least-privilege permissions.
 Distributed-Something is configured to simplify access management, but if you need to make changes to any of the recommended access management, be sure that you have carefully considered permissions.
 
 Some of the required permissions are as follows:
 run.py uses default credentials from your computer to run the following commands.
 run.py doesn't pass flags to the various AWS commands so you need to have AWS CLI set up with default account having these permissions.
+
 - `setup`: needs SQS permissions to create the queue and and ECS permissions to create the cluster and task definition.
 It sends environment variables to the task definition that include either role or access keys.
 If you pass a key/secret key and a role it will default to using the key/secret key for the task.

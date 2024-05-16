@@ -3,6 +3,7 @@
 Distributed-Something is a series of scripts designed to help you run a Dockerized version of your software on [Amazon Web Services](https://aws.amazon.com/) (AWS) using AWS's file storage and cloud computing systems.
 
 Distributed-Something:
+
 * simplifies the process of distributing and running software in the cloud.
 * decreases the cost of cloud computing by optimizing resources used.
 * makes workflows reproducible.
@@ -18,6 +19,7 @@ Docker is a software platform that packages software into containers.
 In a container is the software that you want to run as well as everything needed to run it (e.g. your software source code, operating system libraries, and dependencies).
 
 Dockerizing a workflow has many benefits including
+
 * Ease of use: Dockerized software doesn't require the user to install anything themselves.
 * Reproducibility: You don't need to worry about results being affected by the version of your software or its dependencies being used as those are fixed.
 

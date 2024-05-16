@@ -26,6 +26,7 @@ while True:
 ```
 
 ## Clean out old log groups
+
 Bash:
 
 ```sh

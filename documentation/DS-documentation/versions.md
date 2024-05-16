@@ -5,6 +5,6 @@ Current version is 1.0.0.
 
 ---
 
-# Version History
+## Version History
 
-## 1.0.0 - Version as of 20220701
+1.0.0 - Version as of 20220701
