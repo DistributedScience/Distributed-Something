@@ -471,6 +471,10 @@ If your jobs complete quickly and/or you don’t need the data immediately you c
 <li><p><strong>EBS_VOL_SIZE:</strong> The size of the temporary hard drive associated with each EC2 instance in GB.
 The minimum allowed is 22.
 If you have multiple Dockers running per machine, each Docker will have access to (EBS_VOL_SIZE/TASKS_PER_MACHINE)- 2 GB of space.</p></li>
+<li><p><strong>ASSIGN_IP:</strong> Whether or not to assign an a public IPv4 address to each instance in the spot fleet.
+If set to ‘False’ will overwrite whatever is in the Fleet file.
+If set to ‘True’ will respect whatever is in the Fleet file.
+Distributed-Something originally defaulted to assign an IP address to each instance so that one could connect to the instance for troubleshooting but that need has been mostly obviated by the level of logging.</p></li>
 </ul>
 </section>
 <hr class="docutils" />
