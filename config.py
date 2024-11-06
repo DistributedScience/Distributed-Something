@@ -18,6 +18,7 @@ TASKS_PER_MACHINE = 1
 MACHINE_TYPE = ['m4.xlarge']
 MACHINE_PRICE = 0.10
 EBS_VOL_SIZE = 30                       # In GB.  Minimum allowed is 22.
+ASSIGN_IP = 'False'                     # If 'False', will overwrite setting in Fleet file
 
 # DOCKER INSTANCE RUNNING ENVIRONMENT:
 DOCKER_CORES = 4                        # Number of software processes to run inside a docker container
